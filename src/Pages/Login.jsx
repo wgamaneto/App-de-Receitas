@@ -10,8 +10,9 @@ export default function Login() {
     const { name, value } = target;
     const { email, password } = login;
     setLogin((state) => ({ ...state, [name]: value }));
+    const validEmail = email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
     const minLength = 6;
-    const isEmailValid = email.length >= minLength;
+    const isEmailValid = validEmail;
     const isPasswordValid = password.length >= minLength;
     const enableBtn = isEmailValid && isPasswordValid;
     setDisabled(!enableBtn);

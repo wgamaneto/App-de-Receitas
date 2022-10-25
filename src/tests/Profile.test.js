@@ -1,59 +1,82 @@
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import RecipeProvider from '../context/RecipeProvider';
+import renderWithRouter from './renderWithRouter';
 import Profile from '../Pages/Profile';
 
-it('Test Profile', () => {
-  render(<Profile />, 'profile');
-  const doneBtn = screen.getByTestId('profile-done-btn');
-  const favoriteBtn = screen.getByTestId('profile-favorite-btn');
-  const logoutBtn = screen.getByTestId('profile-logout-btn');
-
-  expect(doneBtn).toBeInTheDocument();
-  expect(favoriteBtn).toBeInTheDocument();
-  expect(logoutBtn).toBeInTheDocument();
-});
-
-const mockHistoryPush = jest.fn();
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: mockHistoryPush,
-  }),
-}));
-
-describe('test btn', () => {
-  it('test btn logout', () => {
-    const { getByTestId } = render(
-      <MemoryRouter>
+describe('Testando Profile', () => {
+  it('testando componentes na tela', () => {
+    renderWithRouter(
+      <RecipeProvider>
         <Profile />
-      </MemoryRouter>,
+      </RecipeProvider>,
     );
+    // const pageTitle = screen.getByTestId('page-title');
+    const profileBtn = screen.getByTestId('profile-top-btn');
+    const doneBtn = screen.getByTestId('profile-done-btn');
+    const profileFavoriteBtn = screen.getByTestId('profile-favorite-btn');
+    const profileLogoutBtn = screen.getByTestId('profile-logout-btn');
 
-    fireEvent.click(getByTestId('profile-logout-btn'));
-    expect(mockHistoryPush).toHaveBeenCalledWith('/');
+    expect(profileBtn).toBeInTheDocument();
+    expect(doneBtn).toBeInTheDocument();
+    expect(profileFavoriteBtn).toBeInTheDocument();
+    expect(profileLogoutBtn).toBeInTheDocument();
+
+    // clicando no seach pra sumir o input
+    // userEvent.click(serachBtn);
+    // expect(ingredientSearchRadio).not.toBeInTheDocument();
   });
 
-  it('test btn done', () => {
-    const { getByTestId } = render(
-      <MemoryRouter>
+  it('testando rota profile', () => {
+    const { history } = renderWithRouter(
+      <RecipeProvider>
         <Profile />
-      </MemoryRouter>,
+      </RecipeProvider>,
     );
+    const profileBtn = screen.getByTestId('profile-top-btn');
+    userEvent.click(profileBtn);
+    const { pathname } = history.location;
 
-    fireEvent.click(getByTestId('profile-done-btn'));
-    expect(mockHistoryPush).toHaveBeenCalledWith('/done-recipes');
+    expect(pathname).toBe('/profile');
   });
 
-  it('test btn favorite', () => {
-    const { getByTestId } = render(
-      <MemoryRouter>
+  it('testando rota done recipes', () => {
+    const { history } = renderWithRouter(
+      <RecipeProvider>
         <Profile />
-      </MemoryRouter>,
+      </RecipeProvider>,
     );
+    const doneBtn = screen.getByTestId('profile-done-btn');
+    userEvent.click(doneBtn);
+    const { pathname } = history.location;
 
-    fireEvent.click(getByTestId('profile-favorite-btn'));
-    expect(mockHistoryPush).toHaveBeenCalledWith('/favorite-recipes');
+    expect(pathname).toBe('/done-recipes');
+  });
+
+  it('testando rota favorites recipes', () => {
+    const { history } = renderWithRouter(
+      <RecipeProvider>
+        <Profile />
+      </RecipeProvider>,
+    );
+    const profileFavoriteBtn = screen.getByTestId('profile-favorite-btn');
+    userEvent.click(profileFavoriteBtn);
+    const { pathname } = history.location;
+
+    expect(pathname).toBe('/favorite-recipes');
+  });
+
+  it('testando rota logout', () => {
+    const { history } = renderWithRouter(
+      <RecipeProvider>
+        <Profile />
+      </RecipeProvider>,
+    );
+    const profileLogoutBtn = screen.getByTestId('profile-logout-btn');
+    userEvent.click(profileLogoutBtn);
+    const { pathname } = history.location;
+
+    expect(pathname).toBe('/');
   });
 });

@@ -2,9 +2,12 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+import renderWithRouter from './renderWithRouter';
 
 it('Test Login', () => {
-  render(<App />);
+  renderWithRouter(
+    <App />  
+);
   const emailInput = screen.getByTestId('email-input');
   const passwordInput = screen.getByTestId('password-input');
   const loginBtn = screen.getByTestId('login-submit-btn');

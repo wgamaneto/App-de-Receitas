@@ -14,7 +14,7 @@ import Header from './components/Header';
 
 function App() {
   return (
-    <BrowserRouter>
+    
       <RecipeProvider>
         <Switch>
           <Route exact path="/" component={ Login } />
@@ -35,7 +35,7 @@ function App() {
 
         </Switch>
       </RecipeProvider>
-    </BrowserRouter>
+  
   );
 }
 

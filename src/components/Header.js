@@ -11,7 +11,7 @@ function Header() {
 
   const path = () => {
     switch (history.location.pathname) {
-    case '/Meals':
+    case '/meals':
       return (<h1 data-testid="page-title">Meals</h1>);
     case '/drinks':
       return (<h1 data-testid="page-title">Drinks</h1>);

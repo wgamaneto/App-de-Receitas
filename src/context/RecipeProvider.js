@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipeContext from './RecipeContext';
 
@@ -14,7 +14,7 @@ function RecipeProvider({ children }) {
 
   const handleChange = ({ target: { name, value } }) => {
     setPersonalData({ ...personalData, [name]: value });
-  };
+  }; // JAMAIS SERA RESOLVIDO!
 
   const [filterValue, setFilterValue] = useState({});
   const [filterType, setFilterType] = useState({});
@@ -23,7 +23,7 @@ function RecipeProvider({ children }) {
   const [toRender, setToRender] = useState([]);
   const [doneRecipes, setDoneRecipes] = useState([]);
 
-  const contextValue = {
+  const contextValue = useMemo(() => ({
     filterValue,
     setFilterValue,
     filterType,
@@ -38,7 +38,8 @@ function RecipeProvider({ children }) {
     setDoneRecipes,
     handleChange,
     personalData,
-  };
+  }), [filterValue, filterType, mealsData, drinkData,
+    toRender, doneRecipes, personalData, handleChange]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

@@ -14,7 +14,7 @@ function RecipeProvider({ children }) {
 
   const handleChange = ({ target: { name, value } }) => {
     setPersonalData({ ...personalData, [name]: value });
-  };
+  }; // JAMAIS SERA RESOLVIDO!
 
   const [filterValue, setFilterValue] = useState({});
   const [filterType, setFilterType] = useState({});

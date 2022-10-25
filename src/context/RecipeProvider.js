@@ -8,6 +8,8 @@ function RecipeProvider({ children }) {
     password: '',
   });
 
+  const [handleAPIReturn, setHandleAPIReturn] = useState([]);
+
   // const [disable, setDisable] = useState({
   //   isDisabled: false,
   // });
@@ -38,8 +40,11 @@ function RecipeProvider({ children }) {
     setDoneRecipes,
     handleChange,
     personalData,
+    handleAPIReturn,
+    setHandleAPIReturn,
   }), [filterValue, filterType, mealsData, drinkData,
-    toRender, doneRecipes, personalData, handleChange]);
+    toRender, doneRecipes, personalData, handleChange,
+    handleAPIReturn, setHandleAPIReturn]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

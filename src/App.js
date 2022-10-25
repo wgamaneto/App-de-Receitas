@@ -9,6 +9,7 @@ import RecipeProvider from './context/RecipeProvider';
 import Profile from './Pages/Profile';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
+import Drinks from './Pages/Drinks';
 
 function App() {
   return (

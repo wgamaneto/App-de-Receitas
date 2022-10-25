@@ -10,7 +10,7 @@ export default function Footer() {
       data-testid="footer"
       className="footer"
     >
-      <Link to="/Meals">
+      <Link to="/meals">
         <img src={ meals } alt="Meals" data-testid="meals-bottom-btn" />
       </Link>
       <Link to="/drinks">

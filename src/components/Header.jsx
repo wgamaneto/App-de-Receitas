@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import SearchBar from './SearchBar';
@@ -11,7 +11,7 @@ function Header() {
 
   const path = () => {
     switch (history.location.pathname) {
-    case '/meals':
+    case '/Meals':
       return (<h1 data-testid="page-title">Meals</h1>);
     case '/drinks':
       return (<h1 data-testid="page-title">Drinks</h1>);

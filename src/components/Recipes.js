@@ -35,22 +35,25 @@ function Recipes() {
   }, [history.location.pathname, setHandleAPIReturn, fetchDrinks]);
 
   return (
-    <div>
+    <div className="recipe-conteiner">
       { handleAPIReturn.map((recipe, index) => (
         <div
           data-testid={ `${index}-recipe-card` }
           key={ index }
         >
-          <img
+          { history.location.pathname === '/meals' ? (<img
             src={ recipe.strMealThumb }
             data-testid={ `${index}-card-img` }
             alt="recipe"
-          />
-          <img
-            src={ recipe.strDrinkThumb }
-            data-testid={ `${index}-card-img` }
-            alt="recipe"
-          />
+            width={ 100 }
+          />)
+            : (
+              <img
+                src={ recipe.strDrinkThumb }
+                data-testid={ `${index}-card-img` }
+                alt="recipe"
+                width={ 100 }
+              />) }
           <h3 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h3>
           <h3 data-testid={ `${index}-card-name` }>{recipe.strDrink}</h3>
         </div>
@@ -60,3 +63,5 @@ function Recipes() {
 }
 
 export default Recipes;
+
+// test

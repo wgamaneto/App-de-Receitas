@@ -9,8 +9,6 @@ function RecipeProvider({ children }) {
   });
 
   const [handleAPIReturn, setHandleAPIReturn] = useState([]);
-  console.log(handleAPIReturn);
-
   // const [disable, setDisable] = useState({
   //   isDisabled: false,
   // });

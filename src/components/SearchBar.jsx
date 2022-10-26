@@ -42,7 +42,8 @@ function SearchBar() {
       urlFinal = `${urlBase}search.php?f=${filterValue.typedSearch}`;
       console.log(urlFinal);
     }
-    if (filterType.filter === 'firstLetter' && filterValue[typedSearch].length !== 1) {
+    const { typedSearch } = filterValue;
+    if (filterType.filter === 'firstLetter' && typedSearch.length !== 1) {
       return global.alert('Your search must have only 1 (one) character');
     }
     const data = await fetch(urlFinal);

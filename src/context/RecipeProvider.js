@@ -52,7 +52,8 @@ function RecipeProvider({ children }) {
     setSearchedRecipes,
   }), [filterValue, filterType, mealsData, drinkData,
     toRender, doneRecipes, personalData, handleChange,
-    handleAPIReturn, setHandleAPIReturn, searchedRecipes,
+    handleAPIReturn,
+    setHandleAPIReturn, searchedRecipes,
     isToggled, setIsToggled, categories, setCategories]);
 
   return (

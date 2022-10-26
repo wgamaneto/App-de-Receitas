@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import RecipeContext from '../context/RecipeContext';
@@ -11,35 +11,50 @@ function Recipes() {
     const data = await fetch(URL);
     const response = await data.json();
     const magic12 = 12;
-    const dataFiltered = await response.meals.slice(0, magic12);
+    const dataFiltered = response.meals.slice(0, magic12);
     return dataFiltered;
   };
-  const fetchDrinks = async () => {
+  const fetchDrinks = useCallback(async () => {
     const URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
     const data = await fetch(URL);
     const response = await data.json();
     const magic12 = 12;
-    const dataFiltered = await response.drinks.slice(0, magic12);
+    const dataFiltered = response.drinks.slice(0, magic12);
     return dataFiltered;
-  };
+  }, []);
   useEffect(() => {
-    if (history.location.pathname === '/meals') {
-      setHandleAPIReturn(fetchMeals());
-    } else if (history.location.pathname === '/drinks') {
-      setHandleAPIReturn(fetchDrinks());
-    }
-  }, [history.location.pathname, setHandleAPIReturn]);
+    (async () => {
+      if (history.location.pathname === '/meals') {
+        const data = await fetchMeals();
+        setHandleAPIReturn(data);
+      } else if (history.location.pathname === '/drinks') {
+        const data2 = await fetchDrinks();
+        setHandleAPIReturn(data2);
+      }
+    })();
+  }, [history.location.pathname, setHandleAPIReturn, fetchDrinks]);
 
   return (
     <div>
-      <div>
-        <button
-          type="button"
-          onClick={ console.log(handleAPIReturn) }
+      { handleAPIReturn.map((recipe, index) => (
+        <div
+          data-testid={ `${index}-recipe-card` }
+          key={ index }
         >
-          ALOU ALOU, MARCIANO
-        </button>
-      </div>
+          <img
+            src={ recipe.strMealThumb }
+            data-testid={ `${index}-card-img` }
+            alt="recipe"
+          />
+          <img
+            src={ recipe.strDrinkThumb }
+            data-testid={ `${index}-card-img` }
+            alt="recipe"
+          />
+          <h3 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h3>
+          <h3 data-testid={ `${index}-card-name` }>{recipe.strDrink}</h3>
+        </div>
+      )) }
     </div>
   );
 }

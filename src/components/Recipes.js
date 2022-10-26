@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import RecipeContext from '../context/RecipeContext';
+import Toggle from './Toggle';
 
 function Recipes() {
   const history = useHistory();
@@ -36,6 +37,7 @@ function Recipes() {
 
   return (
     <div className="recipe-conteiner">
+      <Toggle />
       { handleAPIReturn.map((recipe, index) => (
         <div
           data-testid={ `${index}-recipe-card` }

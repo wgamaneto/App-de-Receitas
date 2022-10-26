@@ -23,6 +23,8 @@ function RecipeProvider({ children }) {
   const [drinkData, setDrinkData] = useState([]);
   const [toRender, setToRender] = useState([]);
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [isToggled, setIsToggled] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const contextValue = useMemo(() => ({
     filterValue,
@@ -41,9 +43,14 @@ function RecipeProvider({ children }) {
     personalData,
     handleAPIReturn,
     setHandleAPIReturn,
+    isToggled,
+    setIsToggled,
+    categories,
+    setCategories,
   }), [filterValue, filterType, mealsData, drinkData,
     toRender, doneRecipes, personalData, handleChange,
-    handleAPIReturn, setHandleAPIReturn]);
+    handleAPIReturn, setHandleAPIReturn, isToggled, setIsToggled,
+    categories, setCategories]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

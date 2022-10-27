@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Card from '../components/Card';
+import Recipes from '../components/Recipes';
 
 import RecipeContext from '../context/RecipeContext';
 
@@ -142,6 +143,7 @@ function Meals() {
                 recipe="meals"
               />))
         }
+        <Recipes />
         <Footer />
       </div>
     </>

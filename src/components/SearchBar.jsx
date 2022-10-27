@@ -11,6 +11,8 @@ function SearchBar() {
     filterType,
     setFilterValue,
     setFilterType,
+    setMealsData,
+    setDrinkData,
     // mealsAPI, // fetchMeals
     // drinksAPI, // fetchDrinks
   } = useContext(RecipeContext);
@@ -49,6 +51,8 @@ function SearchBar() {
     const data = await fetch(urlFinal);
     const response = await data.json();
     console.log(response);
+    setMealsData(response.meals);
+    setDrinkData(response.drinks);
   };
 
   const handleRadio = ({ target: { value } }) => {

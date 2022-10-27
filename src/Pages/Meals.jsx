@@ -11,6 +11,7 @@ import RecipeContext from '../context/RecipeContext';
 function Meals() {
   const history = useHistory();
   const { mealsData, setMealsData } = useContext(RecipeContext);
+  console.log(mealsData);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [filterButton, setFilterButton] = useState({
     filter: false,
@@ -33,7 +34,7 @@ function Meals() {
     }
   };
 
-  const mealsByName = async (name) => fetch(
+  const handleMealsByName = async (name) => fetch(
     `${'https://www.themealdb.com/api/json/v1/1/search.php?s='}${name}`,
   ).then((response) => response.json());
 
@@ -48,7 +49,7 @@ function Meals() {
   };
 
   const fetchAllMeals = () => {
-    const allData = mealsByName('');
+    const allData = handleMealsByName('');
     allData.then((json) => {
       setMealsData([
         ...json.meals,

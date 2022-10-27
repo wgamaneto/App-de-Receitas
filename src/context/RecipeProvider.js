@@ -27,7 +27,6 @@ function RecipeProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [searchedRecipes, setSearchedRecipes] = useState({});
 
-
   const contextValue = useMemo(() => ({
     filterValue,
     setFilterValue,
@@ -53,8 +52,9 @@ function RecipeProvider({ children }) {
     setSearchedRecipes,
   }), [filterValue, filterType, mealsData, drinkData,
     toRender, doneRecipes, personalData, handleChange,
-    handleAPIReturn, setHandleAPIReturn, searchedRecipes
-      isToggled, setIsToggled, categories, setCategories ]);
+    handleAPIReturn,
+    setHandleAPIReturn, searchedRecipes,
+    isToggled, setIsToggled, categories, setCategories]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

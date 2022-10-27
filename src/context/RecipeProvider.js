@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipeContext from './RecipeContext';
 
+// const alert = 'Sorry, we haven\'t found any recipes for these filters.';
 function RecipeProvider({ children }) {
   const [personalData, setPersonalData] = useState({
     email: '',

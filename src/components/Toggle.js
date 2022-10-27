@@ -61,7 +61,6 @@ export default function Filters() {
       </label>
       <label htmlFor="categories">
         <select
-          data-testid={ `${selectedCategory}-category-filter` }
           id="categories"
           name="categories"
           value={ selectedCategory }
@@ -69,7 +68,11 @@ export default function Filters() {
         >
           {
             categories.length && categories.map((e, i) => (
-              <option key={ i } value={ e.strCategory }>
+              <option
+                key={ i }
+                value={ e.strCategory }
+                data-testid={ `${e.strCategory}-category-filter` }
+              >
                 {e.strCategory}
               </option>))
           }

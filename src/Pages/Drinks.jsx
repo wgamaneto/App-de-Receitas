@@ -139,8 +139,8 @@ function Drinks() {
           <Card
             key={ i }
             index={ i }
-            thumbnail={ drink.strDrinkThumb }
-            name={ drink.strDrink }
+            thumbnail={ drink.mealThumb }
+            name={ drink.nameMeal }
             id={ drink.idDrink }
             recipe="drinks"
           />))}

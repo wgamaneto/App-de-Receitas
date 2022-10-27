@@ -26,12 +26,12 @@ function App() {
         <Route exact path="/header" component={ Header } />
         {/* <Route exact path="/Meals/:id-da-receita" component={ RecipeDetails } /> */}
         {/* <Route exact path="/drinks/:id-da-receita" component={ RecipeDetails } /> */}
-        <Route exact path="/Meals/:id/in-progress" component={ RecipeInProgress } />
-        {/* <Route
-            exact
-            path="/drinks/:id/in-progress"
-            component={ RecipeInProgress }
-          /> */}
+        <Route exact path="/meals/:id/in-progress" component={ RecipeInProgress } />
+        <Route
+          exact
+          path="/drinks/:id/in-progress"
+          component={ RecipeInProgress }
+        />
 
       </Switch>
     </RecipeProvider>

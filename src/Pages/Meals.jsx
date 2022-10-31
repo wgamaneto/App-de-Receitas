@@ -11,7 +11,7 @@ function Meals() {
   const history = useHistory();
   const { mealsData, setMealsData } = useContext(RecipeContext);
   const [mealsCategories, setMealsCategories] = useState([]);
-  const { selectedCategory, setSelectedCategory } = useContext(RecipeContext);
+  const { setSelectedCategory } = useContext(RecipeContext);
   const [filterButton, setFilterButton] = useState({
     filter: false,
     click: 0,

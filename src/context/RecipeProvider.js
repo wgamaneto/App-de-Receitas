@@ -174,12 +174,9 @@ function RecipeProvider({ children }) {
     setSelectedCategory,
     fetchMeals,
     fetchDrinks,
-  }), [filterValue, filterType, mealsData, drinkData,
-    toRender, doneRecipes, personalData, handleChange,
-    handleAPIReturn,
-    setHandleAPIReturn, searchedRecipes,
-    isToggled, setIsToggled, categories, setCategories,
-    selectedCategory, setSelectedCategory]);
+  }), [filterValue, filterType, mealsData, drinkData, toRender,
+    doneRecipes, handleChange, personalData, handleAPIReturn,
+    isToggled, categories, searchedRecipes, selectedCategory, fetchMeals, fetchDrinks]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

@@ -8,7 +8,7 @@ export default function Filters() {
   const { setSelectedCategory } = useContext(RecipeContext);
 
   const fetchCategoriesMeals = useCallback(async () => {
-    const URL = 'https://www.themealdb.com/api/json/v1/1/list.php?c=$';
+    const URL = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
     const data = await fetch(URL);
     const response = await data.json();
     const magicNumber = 5;

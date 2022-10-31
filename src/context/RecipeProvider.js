@@ -18,10 +18,10 @@ function RecipeProvider({ children }) {
 
   const testRoute = () => {
     if (history.location.pathname === '/meals') {
-      return '';
+      return 'Beef';
     }
     if (history.location.pathname === '/drinks') {
-      return '';
+      return 'Ordinary Drink';
     }
   };
 
@@ -39,7 +39,6 @@ function RecipeProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [searchedRecipes, setSearchedRecipes] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(testRoute());
-
   const mealsByIngredients = async (filter) => fetch(
     `${'https://www.themealdb.com/api/json/v1/1/filter.php?i='}${filter}`,
   ).then((response) => response.json());

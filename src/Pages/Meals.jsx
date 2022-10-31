@@ -10,8 +10,8 @@ import RecipeContext from '../context/RecipeContext';
 function Meals() {
   const history = useHistory();
   const { mealsData, setMealsData } = useContext(RecipeContext);
-  console.log(mealsData);
   const [mealsCategories, setMealsCategories] = useState([]);
+  const { selectedCategory, setSelectedCategory } = useContext(RecipeContext);
   const [filterButton, setFilterButton] = useState({
     filter: false,
     click: 0,
@@ -39,6 +39,7 @@ function Meals() {
 
   const mealsByCategory = async (category) => {
     try {
+      setSelectedCategory(category);
       const response = await fetch(`${'https://www.themealdb.com/api/json/v1/1/filter.php?c='}${category}`);
       const json = await response.json();
       return json;
@@ -110,13 +111,14 @@ function Meals() {
     fetchData();
   }, []);
 
+  console.log(mealsCategories);
   return (
     <>
       <div>
         <Header />
         {renderCategories.length > 0 && renderCategories.map((category, i) => (
           <button
-            data-testid={ `${i}-category-filter` }
+            data-testid={ `${category}-category-filter` }
             type="button"
             key={ i }
             value={ category }

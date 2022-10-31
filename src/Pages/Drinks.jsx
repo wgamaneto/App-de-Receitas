@@ -141,7 +141,6 @@ function Drinks() {
             <Card
               index={ i }
               thumbnail={ drink.strDrinkThumb }
-              name={ drink.nameMeal }
               id={ drink.idDrink }
               recipe="drinks"
             />

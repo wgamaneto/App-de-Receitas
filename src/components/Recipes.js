@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+/* import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import RecipeContext from '../context/RecipeContext';
@@ -94,4 +94,4 @@ function Recipes() {
 
 export default Recipes;
 
-// test
+// test */

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from './RecipeContext';
 
+// const alert = 'Sorry, we haven\'t found any recipes for these filters.';
 function RecipeProvider({ children }) {
   const history = useHistory();
   const [personalData, setPersonalData] = useState({
@@ -39,6 +40,116 @@ function RecipeProvider({ children }) {
   const [searchedRecipes, setSearchedRecipes] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(testRoute());
 
+  const mealsByIngredients = async (filter) => fetch(
+    `${'https://www.themealdb.com/api/json/v1/1/filter.php?i='}${filter}`,
+  ).then((response) => response.json());
+
+  const mealsByName = async (name) => fetch(
+    `${'https://www.themealdb.com/api/json/v1/1/search.php?s='}${name}`,
+  ).then((response) => response.json());
+
+  const mealsByletter = async (letter) => fetch(
+    `${'https://www.themealdb.com/api/json/v1/1/search.php?f='}${letter}`,
+  ).then((response) => response.json());
+
+  const fetchMeals = async ({ filter }) => {
+    switch (filterType.filter) {
+    case 'ingredients': {
+      const byIngredients = await mealsByIngredients(filter);
+      if (byIngredients.meals === null) {
+        global.alert(alertNull);
+      } else {
+        setMealsData([
+          ...byIngredients.meals,
+        ]);
+      }
+      break;
+    }
+    case 'name': {
+      const byName = await mealsByName(filter);
+      if (byName.meals === null) {
+        global.alert(alertNull);
+      }
+      if (byName.meals) {
+        setMealsData([
+          ...byName.meals,
+        ]);
+      }
+      break;
+    }
+    case 'firstLetter': {
+      if (filter.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else {
+        const byLetter = await mealsByletter(filter);
+        if (byLetter.meals === null) {
+          global.alert(alertNull);
+        } else {
+          setMealsData([
+            ...byLetter.meals,
+          ]);
+        }
+      }
+      break;
+    }
+    default: {
+      return 'null';
+    }
+    }
+  };
+
+  const drinksByIngrdients = async (filter) => fetch(
+    `${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='}${filter}`,
+  ).then((response) => response.json());
+
+  const drinksByName = async (filter2) => fetch(
+    `${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='}${filter2}`,
+  ).then((response) => response.json());
+
+  const fetchDrinks = async ({ filter }) => {
+    switch (filterType.filter) {
+    case 'ingredients': {
+      const byIngredients = await drinksByIngrdients(filter);
+      if (byIngredients) {
+        setDrinkData([
+          ...byIngredients.drinks,
+        ]);
+      }
+      break;
+    }
+    case 'name': {
+      const byName = await drinksByName(filter);
+      if (byName.drinks === null) {
+        global.alert(alertNull);
+      }
+      if (byName.drinks) {
+        setDrinkData([
+          ...byName.drinks,
+        ]);
+      }
+      break;
+    }
+    case 'firstLetter': {
+      if (filter.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      } else {
+        const byLetter = await fetchDrinksByFistLetter(filter);
+        if (byLetter.drinks === null) {
+          global.alert(alertNull);
+        } else {
+          setDrinkData([
+            ...byLetter.drinks,
+          ]);
+        }
+      }
+      break;
+    }
+    default: {
+      return 'null';
+    }
+    }
+  };
+
   const contextValue = useMemo(() => ({
     filterValue,
     setFilterValue,
@@ -64,6 +175,8 @@ function RecipeProvider({ children }) {
     setSearchedRecipes,
     selectedCategory,
     setSelectedCategory,
+    fetchMeals,
+    fetchDrinks,
   }), [filterValue, filterType, mealsData, drinkData,
     toRender, doneRecipes, personalData, handleChange,
     handleAPIReturn,

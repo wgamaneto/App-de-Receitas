@@ -38,6 +38,8 @@ function RecipeProvider({ children }) {
   const [isToggled, setIsToggled] = useState(false);
   const [categories, setCategories] = useState([]);
   const [searchedRecipes, setSearchedRecipes] = useState({});
+  const [mealOrDrinks, setMealOrDrinks] = useState('');
+  const [favoriteRecipes, setFavoriteRecipes] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(testRoute());
   const mealsByIngredients = async (filter) => fetch(
     `${'https://www.themealdb.com/api/json/v1/1/filter.php?i='}${filter}`,
@@ -179,9 +181,14 @@ function RecipeProvider({ children }) {
     setSelectedCategory,
     fetchMeals,
     fetchDrinks,
-  }), [filterValue, filterType, mealsData, drinkData, toRender,
-    doneRecipes, handleChange, personalData, handleAPIReturn,
-    isToggled, categories, searchedRecipes, selectedCategory, fetchMeals, fetchDrinks]);
+    mealOrDrinks,
+    setMealOrDrinks,
+    favoriteRecipes,
+    setFavoriteRecipes,
+  }), [filterValue, filterType, mealsData, drinkData, toRender, doneRecipes,
+    handleChange, personalData, handleAPIReturn, isToggled,
+    categories, searchedRecipes, selectedCategory, fetchMeals,
+    fetchDrinks, mealOrDrinks, favoriteRecipes]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

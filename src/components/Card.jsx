@@ -9,6 +9,7 @@ function Card({ index, name, thumbnail, id, recipe }) {
         <div>
           <p data-testid={ `${index}-card-name` }>{name}</p>
           <img
+            width={ 100 }
             data-testid={ `${index}-card-img` }
             src={ thumbnail }
             alt="Recipe"

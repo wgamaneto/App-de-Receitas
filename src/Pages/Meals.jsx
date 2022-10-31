@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Card from '../components/Card';
-import Recipes from '../components/Recipes';
 
 import RecipeContext from '../context/RecipeContext';
 
@@ -117,7 +116,7 @@ function Meals() {
         <Header />
         {renderCategories.length > 0 && renderCategories.map((category, i) => (
           <button
-            data-testid={ `${category}-category-filter` }
+            data-testid={ `${i}-category-filter` }
             type="button"
             key={ i }
             value={ category }
@@ -135,16 +134,26 @@ function Meals() {
           mealsToBeRendered.length === 1 && !filterButton.filter
             ? history.push(`/meals/${mealsToBeRendered[0].idMeal}`)
             : mealsToBeRendered.map((meals, i) => (
-              <Card
+              <div
                 key={ i }
-                index={ i }
-                thumbnail={ meals.mealThumb }
-                name={ meals.nameMeal }
-                id={ meals.idMeal }
-                recipe="meals"
-              />))
+              >
+                <Card
+                  index={ i }
+                  thumbnail={ meals.strMealThumb }
+                  id={ meals.idMeal }
+                  recipe="meals"
+                />
+                <p
+                  data-testid={ `${i}-card-name` }
+                >
+                  {' '}
+                  { meals.strMeal }
+                  {' '}
+                </p>
+              </div>
+            ))
         }
-        <Recipes />
+        {/* <Recipes /> */}
         <Footer />
       </div>
     </>

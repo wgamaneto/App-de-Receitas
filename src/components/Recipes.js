@@ -60,7 +60,8 @@ function Recipes() {
         setHandleAPIReturn(data2);
       }
     })();
-  }, [history.location.pathname, setHandleAPIReturn, selectedCategory]);
+  }, [history.location.pathname, setHandleAPIReturn, selectedCategory,
+    fetchMeals, fetchDrinks]);
 
   return (
     <div className="recipe-conteiner">

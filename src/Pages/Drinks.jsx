@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import Recipes from '../components/Recipes';
 import Card from '../components/Card';
 
 import RecipeContext from '../context/RecipeContext';
@@ -136,15 +135,26 @@ function Drinks() {
       {drinkToRender.length === 1 && !filterButton.filter
         ? history.push(`/drinks/${drinkToRender[0].idDrink}`)
         : drinkToRender.map((drink, i) => (
-          <Card
+          <div
             key={ i }
-            index={ i }
-            thumbnail={ drink.mealThumb }
-            name={ drink.nameMeal }
-            id={ drink.idDrink }
-            recipe="drinks"
-          />))}
-      <Recipes />
+          >
+            <Card
+              index={ i }
+              thumbnail={ drink.strDrinkThumb }
+              name={ drink.nameMeal }
+              id={ drink.idDrink }
+              recipe="drinks"
+            />
+            <p
+              data-testid={ `${i}-card-name` }
+            >
+              {' '}
+              { drink.strDrink }
+              {' '}
+            </p>
+          </div>
+        ))}
+      {/* <Recipes /> */}
       <Footer />
     </div>
   );

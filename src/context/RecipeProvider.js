@@ -53,6 +53,15 @@ function RecipeProvider({ children }) {
   ).then((response) => response.json());
 
   const fetchMeals = async ({ filter }) => {
+    if (filterType.filter === 'name') {
+      const byName = await mealsByName(filter);
+      if (byName.meals === null) {
+        global.alert(alertNull);
+      }
+      // console.log('aconteci');
+      setMealsData(byName);
+      console.log(byName);
+    }
     switch (filterType.filter) {
     case 'ingredients': {
       const byIngredients = await mealsByIngredients(filter);
@@ -61,18 +70,6 @@ function RecipeProvider({ children }) {
       } else {
         setMealsData([
           ...byIngredients.meals,
-        ]);
-      }
-      break;
-    }
-    case 'name': {
-      const byName = await mealsByName(filter);
-      if (byName.meals === null) {
-        global.alert(alertNull);
-      }
-      if (byName.meals) {
-        setMealsData([
-          ...byName.meals,
         ]);
       }
       break;

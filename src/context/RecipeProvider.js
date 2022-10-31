@@ -1,9 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import RecipeContext from './RecipeContext';
 
 // const alert = 'Sorry, we haven\'t found any recipes for these filters.';
 function RecipeProvider({ children }) {
+  const history = useHistory();
   const [personalData, setPersonalData] = useState({
     email: '',
     password: '',
@@ -13,6 +15,15 @@ function RecipeProvider({ children }) {
   // const [disable, setDisable] = useState({
   //   isDisabled: false,
   // });
+
+  const testRoute = () => {
+    if (history.location.pathname === '/meals') {
+      return '';
+    }
+    if (history.location.pathname === '/drinks') {
+      return '';
+    }
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     setPersonalData({ ...personalData, [name]: value });
@@ -27,6 +38,7 @@ function RecipeProvider({ children }) {
   const [isToggled, setIsToggled] = useState(false);
   const [categories, setCategories] = useState([]);
   const [searchedRecipes, setSearchedRecipes] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState(testRoute());
 
   const mealsByIngredients = async (filter) => fetch(
     `${'https://www.themealdb.com/api/json/v1/1/filter.php?i='}${filter}`,
@@ -158,13 +170,16 @@ function RecipeProvider({ children }) {
     setCategories,
     searchedRecipes,
     setSearchedRecipes,
+    selectedCategory,
+    setSelectedCategory,
     fetchMeals,
     fetchDrinks,
   }), [filterValue, filterType, mealsData, drinkData,
     toRender, doneRecipes, personalData, handleChange,
     handleAPIReturn,
     setHandleAPIReturn, searchedRecipes,
-    isToggled, setIsToggled, categories, setCategories]);
+    isToggled, setIsToggled, categories, setCategories,
+    selectedCategory, setSelectedCategory]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

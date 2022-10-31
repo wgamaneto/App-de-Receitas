@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from './RecipeContext';
 
-// const alert = 'Sorry, we haven\'t found any recipes for these filters.';
+const alertNull = 'Sorry, we haven\'t found any recipes for these filters.';
 function RecipeProvider({ children }) {
   const history = useHistory();
   const [personalData, setPersonalData] = useState({
@@ -52,16 +52,19 @@ function RecipeProvider({ children }) {
     `${'https://www.themealdb.com/api/json/v1/1/search.php?f='}${letter}`,
   ).then((response) => response.json());
 
+  const drinksByIngrdients = async (filter) => fetch(
+    `${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='}${filter}`,
+  ).then((response) => response.json());
+
+  const drinksByName = async (filter2) => fetch(
+    `${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='}${filter2}`,
+  ).then((response) => response.json());
+
+  const drinksByletter = async (letter2) => fetch(
+    `${'https://www.thecocktaildb.com/api/json/v1/1/search.php?f='}${letter2}`,
+  ).then((response) => response.json());
+
   const fetchMeals = async ({ filter }) => {
-    if (filterType.filter === 'name') {
-      const byName = await mealsByName(filter);
-      if (byName.meals === null) {
-        global.alert(alertNull);
-      }
-      // console.log('aconteci');
-      setMealsData(byName);
-      console.log(byName);
-    }
     switch (filterType.filter) {
     case 'ingredients': {
       const byIngredients = await mealsByIngredients(filter);
@@ -70,6 +73,18 @@ function RecipeProvider({ children }) {
       } else {
         setMealsData([
           ...byIngredients.meals,
+        ]);
+      }
+      break;
+    }
+    case 'name': {
+      const byName = await mealsByName(filter);
+      if (byName.meals === null) {
+        global.alert(alertNull);
+      }
+      if (byName.meals) {
+        setMealsData([
+          ...byName.meals,
         ]);
       }
       break;
@@ -94,15 +109,6 @@ function RecipeProvider({ children }) {
     }
     }
   };
-
-  const drinksByIngrdients = async (filter) => fetch(
-    `${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='}${filter}`,
-  ).then((response) => response.json());
-
-  const drinksByName = async (filter2) => fetch(
-    `${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='}${filter2}`,
-  ).then((response) => response.json());
-
   const fetchDrinks = async ({ filter }) => {
     switch (filterType.filter) {
     case 'ingredients': {
@@ -130,7 +136,7 @@ function RecipeProvider({ children }) {
       if (filter.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       } else {
-        const byLetter = await fetchDrinksByFistLetter(filter);
+        const byLetter = await drinksByletter(filter);
         if (byLetter.drinks === null) {
           global.alert(alertNull);
         } else {
@@ -142,7 +148,7 @@ function RecipeProvider({ children }) {
       break;
     }
     default: {
-      return 'null';
+      return 'undefined';
     }
     }
   };

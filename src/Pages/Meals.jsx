@@ -111,7 +111,6 @@ function Meals() {
     fetchData();
   }, []);
 
-  console.log(mealsCategories);
   return (
     <>
       <div>

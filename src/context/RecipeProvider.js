@@ -195,12 +195,10 @@ function RecipeProvider({ children }) {
     setMealOrDrinks,
     favoriteRecipes,
     setFavoriteRecipes,
-  }), [filterValue, filterType, mealsData, drinkData, toRender, doneRecipes,
-    handleChange, personalData, handleAPIReturn, isToggled,
-    categories, searchedRecipes, fetchMeals, fetchDrinks, selectedCategory,
-    fetchMeals, recipeDetails, ingredients, , measure,
-    fetchDrinks, mealOrDrinks, favoriteRecipes]);
-
+  }), [filterValue, filterType, mealsData, drinkData,
+    toRender, doneRecipes, handleChange, personalData, handleAPIReturn,
+    isToggled, categories, searchedRecipes, fetchMeals, fetchDrinks, selectedCategory,
+    recipeDetails, ingredients, measure, mealOrDrinks, favoriteRecipes]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

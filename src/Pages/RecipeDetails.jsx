@@ -68,7 +68,7 @@ function RecipeDetails() {
           />
         )}
 
-      { history.location.pathname.includes('meals') //  Title
+      { history.location.pathname.includes('meals') // Title
         ? (
           <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
         )

@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import whireHeartIcon from '../images/whiteHeartIcon.svg';
+import './RecipeInProgress.css';
 
 function RecipeInProgress() {
   const history = useHistory();
   const recipeId = history.location.pathname.replace(/\D/g, '');
   const [recipeDetails, setRecipeDetails] = useState([]);
-  const [isFetched, setIsFetched] = useState(false);
   const [Ingredients, setIngredients] = useState([]);
   const [Measures, setMeasures] = useState([]);
+  const [recipeSteps, setRecipeSteps] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(true);
   const bars = history.location.pathname.split('/');
   const path = bars[1];
-
-  const fetchRecipeDetails = async () => {
+  const fetchRecipeDetails = useCallback(async () => {
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
     const data = await fetch(url);
     const res = await data.json();
-    setIsFetched(true);
-    return res;
-  };
-
-  const getIngredients = async () => {
+    /* setIsFetched(true); */
+    console.log('entrou no fetch');
+    setRecipeDetails(res);
+  }, [recipeId]);
+  useEffect(() => {
+    fetchRecipeDetails();
+  }, [fetchRecipeDetails]);
+  const getIngredients = useCallback(async () => {
     if (recipeDetails[path][0] !== undefined) {
       const entradas = Object.entries(recipeDetails[path][0]);
       const ingredients = entradas.filter(
@@ -39,27 +43,97 @@ function RecipeInProgress() {
       setIngredients(filterIng);
       setMeasures(filterMeasure);
     }
-  };
+  }, [recipeDetails, path]);
 
-  const validateButton = () => {
+  const initialState = () => {
+    const local = JSON.parse(localStorage.getItem('inRecipeProgress'));
+    console.log(local);
+    if (local[path][recipeId]) {
+      setRecipeSteps(local[path][recipeId]);
 
-  };
-
-  const saveInfos = async () => {
-    await isFetched;
-    const infos = await fetchRecipeDetails();
-    setRecipeDetails(infos);
+      local[path][recipeId].forEach((recipe) => {
+        const itens = document.getElementById(recipe);
+        const checkbox = document.getElementsByName(recipe);
+        console.log(itens);
+        console.log(recipe);
+        itens.className = 'cutted';
+        checkbox[0].checked = true;
+      });
+    }
   };
 
   useEffect(() => {
-    saveInfos();
-  }, [saveInfos]);
+    getIngredients();
+    initialState();
+  }, [getIngredients]);
+
+  useEffect(() => {
+    let local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (!local) {
+      local = {
+        meals: {},
+        drinks: {},
+      };
+    }
+    local[path][recipeId] = recipeSteps;
+    localStorage.setItem('inRecipeProgress', JSON.stringify(local));
+  }, [recipeSteps, path, recipeId]);
+
+  const validateButton = () => {
+    if (recipeSteps.length === Ingredients.length - 1) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+    console.log(recipeSteps.length);
+  };
+
+  const saveDoneSteps = ({ target }) => {
+    const itens = document.getElementById(target.name);
+    if (target.checked === true) {
+      itens.className = 'cutted';
+      if (recipeSteps.includes(target.name)) {
+        const removeBox = recipeSteps.filter((step) => step !== target.name);
+        setRecipeSteps(removeBox);
+      } else {
+        setRecipeSteps([...recipeSteps, target.name]);
+      }
+    } else if (target.checked === false) {
+      itens.className = '';
+      const removeBox = recipeSteps.filter((recipe) => recipe !== target.name);
+      setRecipeSteps(removeBox);
+    }
+  };
+
+  /* const checkLocalStorage = () => {
+    if (localStorage.inProgressRecipes.length !== 0) {
+      setRecipeSteps(JSON.parse(localStorage.getItem('inProgressRecipes')));
+      console.log(recipeSteps);
+    } else if (localStorage.inProgressRecipes.length === 0) {
+      const array = JSON.stringify(
+        localStorage.getItem('inProgressRecipes'),
+      );
+      const arrayParsed = array.map((element) => parseInt(element, 10));
+      setRecipeSteps(arrayParsed);
+    }
+  }; */
+
+  /* const checkLocalStorageBoxes = async () => {
+    await checkLocalStorage();
+    await gettedFromLocalStorage;
+    recipeSteps.forEach((element, index) => {
+      const checkbox = document.getElementsByName(`checkbox ${index}`);
+      console.log(checkbox);
+      checkbox[0].checked = true;
+    });
+  }; */
+  console.log(recipeDetails);
   return (
     <div>
       { path === 'meals'
         ? (
           <div>
-            { isFetched ? (
+            { recipeDetails.length !== 0 && (
               <div>
                 <img
                   src={ recipeDetails[path][0].strMealThumb }
@@ -90,13 +164,16 @@ function RecipeInProgress() {
                   {Ingredients.map((checkbox, index) => (
                     <div key={ index }>
                       <input
+                        id={ index }
                         type="checkbox"
-                        onClick={ () => console.log('clicou na checkbox') }
-                        name={ `checkbox ${index}` }
-                        id={ `checkbox ${index}` }
+                        onClick={ saveDoneSteps }
+                        onChange={ validateButton }
+                        name={ `${checkbox} ${Measures[index]}` }
                       />
                       <label
-                        htmlFor={ `checkbox ${index}` }
+                        htmlFor={ `${checkbox} ${Measures[index]}` }
+                        name={ `label ${index}` }
+                        id={ `${checkbox} ${Measures[index]}` }
                       >
                         {`${checkbox} ${Measures[index]}`}
 
@@ -107,14 +184,13 @@ function RecipeInProgress() {
                   type="button"
                   onClick={ () => console.log('clicou finalizar') }
                   testid="finish-recipe-btn"
+                  disabled={ isDisabled }
                 >
                   Finish Recipe
 
                 </button>
-                <button type="button" onClick={ getIngredients }>Teste</button>
               </div>
-            )
-              : false }
+            )}
           </div>
         )
         : (

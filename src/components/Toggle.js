@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useEffect } from 'react';
+/* import React, { useContext, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 
@@ -59,3 +59,4 @@ export default function Filters() {
 
   );
 }
+ */

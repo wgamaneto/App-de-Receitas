@@ -21,13 +21,9 @@ function Meals() {
   const renderCategories = [];
 
   const fetchCategories = async (URL) => {
-    try {
-      const response = await fetch(URL);
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    const response = await fetch(URL);
+    const json = await response.json();
+    return json;
   };
 
   const handleMealsByName = async (name) => fetch(
@@ -35,13 +31,10 @@ function Meals() {
   ).then((response) => response.json());
 
   const mealsByCategory = async (category) => {
-    try {
-      const response = await fetch(`${'https://www.themealdb.com/api/json/v1/1/filter.php?c='}${category}`);
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    setSelectedCategory(category);
+    const response = await fetch(`${'https://www.themealdb.com/api/json/v1/1/filter.php?c='}${category}`);
+    const json = await response.json();
+    return json;
   };
 
   const fetchAllMeals = () => {

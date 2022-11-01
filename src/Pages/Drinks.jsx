@@ -22,33 +22,21 @@ function Drinks() {
   const maxCategories = 4;
 
   const fetchCategories = async (URL) => {
-    try {
-      const response = await fetch(URL);
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    const response = await fetch(URL);
+    const json = await response.json();
+    return json;
   };
 
   const drinksByName = async (name) => {
-    try {
-      const response = await fetch(`${'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='}${name}`);
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      throw Error(error.message);
-    }
+    const response = await fetch(`${'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='}${name}`);
+    const json = await response.json();
+    return json;
   };
 
   const drinksByCategory = async (category) => {
-    try {
-      const response = await fetch(`${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c='}${category}`);
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+    const response = await fetch(`${'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c='}${category}`);
+    const json = await response.json();
+    return json;
   };
 
   const fetchAllDrinks = () => {

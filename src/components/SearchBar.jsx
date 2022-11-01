@@ -36,22 +36,15 @@ function SearchBar() {
     let urlFinal = '';
     if (filterType.filter === 'ingredients') {
       urlFinal = `${urlBase}filter.php?i=${filterValue.typedSearch}`;
-      console.log(urlFinal);
     } else if (filterType.filter === 'name') {
       urlFinal = `${urlBase}search.php?s=${filterValue.typedSearch}`;
-      console.log(urlFinal);
     } else if (filterType.filter === 'firstLetter') {
       urlFinal = `${urlBase}search.php?f=${filterValue.typedSearch}`;
-      console.log(urlFinal);
     }
     const { typedSearch } = filterValue;
     if (filterType.filter === 'firstLetter' && typedSearch.length !== 1) {
       return global.alert('Your search must have only 1 (one) character');
     }
-
-    //     if (filterType.filter === 'ingredients' && typedSearch.length !== 1) {
-    //       return global.alert('Sorry, we haven't found any recipes for these filters.');
-    //     }
     const data = await fetch(urlFinal);
     const response = await data.json();
     if (response.drinks === null) {

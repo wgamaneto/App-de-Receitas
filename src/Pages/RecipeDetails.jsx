@@ -99,7 +99,7 @@ function RecipeDetails() {
         ))}
       </ul>
 
-      { history.location.pathname.includes('meals') // Recipe - Video
+      { history.location.pathname.includes('meals') // Recipe Video
         ? (
           <iframe
             title={ recipeDetails.strMeal }

@@ -13,14 +13,13 @@ function Drinks() {
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [filterButton, setFilterButton] = useState({
     filter: false,
-    click: 0,
+    name: '',
   });
 
   const drinkToRender = [];
   const maxCards = 12;
   const categoriesToRender = [];
   const maxCategories = 4;
-  const timer = 2000;
 
   const fetchCategories = async (URL) => {
     const response = await fetch(URL);
@@ -52,24 +51,18 @@ function Drinks() {
   const getDrinksByCategory = async ({ target: { value } }) => {
     if (value === 'All') {
       fetchAllDrinks();
-      setTimeout(() => {
-        setFilterButton({
-          filter: false,
-        });
-      }, timer);
-    } else if (filterButton.click === 1) {
+      setFilterButton({
+        name: value,
+      });
+    } if (value === filterButton.name) {
       fetchAllDrinks();
-      setTimeout(() => {
-        setFilterButton({
-          filter: false,
-          click: 0,
-        });
-      }, timer);
-    } else {
+      setFilterButton({
+        name: value,
+      });
+    } else if (value !== 'All') {
       const results = await drinksByCategory(value);
       setFilterButton({
-        filter: true,
-        click: filterButton.click + 1,
+        name: value,
       });
       await setDrinkData([
         ...results.drinks,

@@ -11,17 +11,14 @@ function Meals() {
   const history = useHistory();
   const { mealsData, setMealsData } = useContext(RecipeContext);
   const [mealsCategories, setMealsCategories] = useState([]);
-  const { setSelectedCategory } = useContext(RecipeContext);
   const [filterButton, setFilterButton] = useState({
-    filter: false,
-    click: 0,
+    name: '',
   });
 
   const mealsToBeRendered = [];
   const maxCards = 12;
   const maxCategories = 4;
   const renderCategories = [];
-  const timer = 2000;
 
   const fetchCategories = async (URL) => {
     const response = await fetch(URL);
@@ -52,26 +49,21 @@ function Meals() {
   const getMealsByCategory = async ({ target: { value } }) => {
     if (value === 'All') {
       fetchAllMeals();
-      setTimeout(() => {
-        setFilterButton({
-          filter: false,
-        });
-      }, timer);
-    } else if (filterButton.click === 1) {
+      setFilterButton({
+        filter: false,
+      });
+    }
+    if (value === filterButton.name) {
       fetchAllMeals();
-      setTimeout(() => {
-        setFilterButton({
-          filter: false,
-          click: 0,
-        });
-      }, timer);
-    } else {
+      setFilterButton({
+        filter: false,
+      });
+    } else if (value !== 'All' || value === 'Goat') {
       const results = await mealsByCategory(value);
       setFilterButton({
-        filter: true,
-        click: filterButton.click + 1,
+        name: value,
       });
-      await setMealsData([
+      setMealsData([
         ...results.meals,
       ]);
     }
@@ -124,7 +116,7 @@ function Meals() {
         { mealsData.length === 0 && fetchAllMeals() }
 
         {
-          mealsToBeRendered.length === 1 && !filterButton.filter
+          mealsToBeRendered.length === 1 && !filterButton.name
             ? history.push(`/meals/${mealsToBeRendered[0].idMeal}`)
             : mealsToBeRendered.map((meals, i) => (
               <div

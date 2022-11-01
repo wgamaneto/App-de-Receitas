@@ -38,6 +38,9 @@ function RecipeProvider({ children }) {
   const [isToggled, setIsToggled] = useState(false);
   const [categories, setCategories] = useState([]);
   const [searchedRecipes, setSearchedRecipes] = useState({});
+  const [recipeDetails, setRecipeDetails] = useState({});
+  const [ingredients, setIngredients] = useState([]);
+  const [measure, setMeasure] = useState([]);
   const [mealOrDrinks, setMealOrDrinks] = useState('');
   const [favoriteRecipes, setFavoriteRecipes] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(testRoute());
@@ -182,14 +185,20 @@ function RecipeProvider({ children }) {
     setSelectedCategory,
     fetchMeals,
     fetchDrinks,
+    recipeDetails,
+    setRecipeDetails,
+    ingredients,
+    setIngredients,
+    measure,
+    setMeasure,
     mealOrDrinks,
     setMealOrDrinks,
     favoriteRecipes,
     setFavoriteRecipes,
-  }), [filterValue, filterType, mealsData, drinkData, toRender, doneRecipes,
-    handleChange, personalData, handleAPIReturn, isToggled,
-    categories, searchedRecipes, selectedCategory, fetchMeals,
-    fetchDrinks, mealOrDrinks, favoriteRecipes]);
+  }), [filterValue, filterType, mealsData, drinkData,
+    toRender, doneRecipes, handleChange, personalData, handleAPIReturn,
+    isToggled, categories, searchedRecipes, fetchMeals, fetchDrinks, selectedCategory,
+    recipeDetails, ingredients, measure, mealOrDrinks, favoriteRecipes]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

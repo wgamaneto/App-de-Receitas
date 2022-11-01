@@ -48,23 +48,24 @@ function SearchBar() {
     if (filterType.filter === 'firstLetter' && typedSearch.length !== 1) {
       return global.alert('Your search must have only 1 (one) character');
     }
-    //     if (filterType.filter === 'name' && typedSearch.length !== 1) {
-    //       return global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    //     }
+
     //     if (filterType.filter === 'ingredients' && typedSearch.length !== 1) {
-    //       return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    //       return global.alert('Sorry, we haven't found any recipes for these filters.');
     //     }
     const data = await fetch(urlFinal);
     const response = await data.json();
-    console.log(response);
-    setMealsData(response.meals);
+    if (response.drinks === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (response.meals === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
     setDrinkData(response.drinks);
+    setMealsData(response.meals);
   };
 
   const handleRadio = ({ target: { value } }) => {
     setFilterType({ filter: value });
-    console.log(filterValue);
-    console.log(filterType);
   };
 
   const filterHandleChange = ({ target: { value } }) => {

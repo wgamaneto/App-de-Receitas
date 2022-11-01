@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Card from '../components/Card';
-import Recipes from '../components/Recipes';
 
 import RecipeContext from '../context/RecipeContext';
 
@@ -12,6 +11,7 @@ function Meals() {
   const history = useHistory();
   const { mealsData, setMealsData } = useContext(RecipeContext);
   const [mealsCategories, setMealsCategories] = useState([]);
+  const { setSelectedCategory } = useContext(RecipeContext);
   const [filterButton, setFilterButton] = useState({
     filter: false,
     click: 0,
@@ -33,12 +33,13 @@ function Meals() {
     }
   };
 
-  const mealsByName = async (name) => fetch(
+  const handleMealsByName = async (name) => fetch(
     `${'https://www.themealdb.com/api/json/v1/1/search.php?s='}${name}`,
   ).then((response) => response.json());
 
   const mealsByCategory = async (category) => {
     try {
+      setSelectedCategory(category);
       const response = await fetch(`${'https://www.themealdb.com/api/json/v1/1/filter.php?c='}${category}`);
       const json = await response.json();
       return json;
@@ -48,7 +49,7 @@ function Meals() {
   };
 
   const fetchAllMeals = () => {
-    const allData = mealsByName('');
+    const allData = handleMealsByName('');
     allData.then((json) => {
       setMealsData([
         ...json.meals,
@@ -134,16 +135,26 @@ function Meals() {
           mealsToBeRendered.length === 1 && !filterButton.filter
             ? history.push(`/meals/${mealsToBeRendered[0].idMeal}`)
             : mealsToBeRendered.map((meals, i) => (
-              <Card
+              <div
                 key={ i }
-                index={ i }
-                thumbnail={ meals.mealThumb }
-                name={ meals.nameMeal }
-                id={ meals.idMeal }
-                recipe="meals"
-              />))
+              >
+                <Card
+                  index={ i }
+                  thumbnail={ meals.strMealThumb }
+                  id={ meals.idMeal }
+                  recipe="meals"
+                />
+                <p
+                  data-testid={ `${i}-card-name` }
+                >
+                  {' '}
+                  { meals.strMeal }
+                  {' '}
+                </p>
+              </div>
+            ))
         }
-        <Recipes />
+        {/* <Recipes /> */}
         <Footer />
       </div>
     </>

@@ -1,21 +1,11 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 
 export default function Filters() {
   const history = useHistory();
-  const { isToggled, setIsToggled } = useContext(RecipeContext);
   const { categories, setCategories } = useContext(RecipeContext);
-
-  const testRoute = () => {
-    if (history.location.pathname === '/meals') {
-      return 'Beef';
-    }
-    if (history.location.pathname === '/drinks') {
-      return 'Ordinary Drink';
-    }
-  };
-  const [selectedCategory, setSelectedCategory] = useState(testRoute());
+  const { setSelectedCategory } = useContext(RecipeContext);
 
   const fetchCategoriesMeals = useCallback(async () => {
     const URL = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
@@ -49,35 +39,23 @@ export default function Filters() {
     setCategories, fetchCategoriesDrinks]);
 
   return (
-    <>
-      <label htmlFor="toogle">
-        Botao Toogle
-        <input
-          id="toogle"
-          type="checkbox"
-          checked={ isToggled }
-          onChange={ () => setIsToggled(!isToggled) }
-        />
-      </label>
-      <label htmlFor="categories">
-        <select
-          id="categories"
-          name="categories"
-          value={ selectedCategory }
-          onChange={ (e) => setSelectedCategory(e.target.value) }
-        >
-          {
-            categories.length && categories.map((e, i) => (
-              <option
-                key={ i }
-                value={ e.strCategory }
-                data-testid={ `${e.strCategory}-category-filter` }
-              >
-                {e.strCategory}
-              </option>))
-          }
-        </select>
-      </label>
-    </>
+
+    <label htmlFor="categories">
+
+      {
+        categories.length && categories.map((e, i) => (
+          <button
+            key={ i }
+            type="button"
+            value={ e.strCategory }
+            onClick={ () => setSelectedCategory(e.strCategory) }
+            data-testid={ `${e.strCategory}-category-filter` }
+          >
+            {e.strCategory}
+          </button>))
+      }
+
+    </label>
+
   );
 }

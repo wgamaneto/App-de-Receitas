@@ -80,6 +80,7 @@ function RecipeProvider({ children }) {
     }
     case 'name': {
       const byName = await mealsByName(filter);
+      console.log(byName);
       if (byName.meals === null) {
         global.alert(alertNull);
       }
@@ -135,7 +136,7 @@ function RecipeProvider({ children }) {
     }
     case 'firstLetter': {
       if (filter.length > 1) {
-        global.alert('Your search must have only 1 (one) character');
+        global.alert('Your search must have only aaaaa (one) character');
       } else {
         const byLetter = await drinksByletter(filter);
         if (byLetter.drinks === null) {

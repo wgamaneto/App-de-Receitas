@@ -35,7 +35,6 @@ function Drinks() {
   const drinksByName = async (name) => {
     try {
       const response = await fetch(`${'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='}${name}`);
-      console.log(response);
       const json = await response.json();
       return json;
     } catch (error) {
@@ -84,7 +83,6 @@ function Drinks() {
         filter: true,
         click: filterButton.click + 1,
       });
-      console.log(results.drinks);
       await setDrinkData([
         ...results.drinks,
       ]);

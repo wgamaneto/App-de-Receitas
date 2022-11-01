@@ -4,7 +4,7 @@ import RecipeContext from '../context/RecipeContext';
 
 function RecipeDetails() {
   const { setRecipeDetails, recipeDetails, ingredients, measure,
-    // setIngredients, setMeasure,
+    setIngredients, setMeasure,
   } = useContext(RecipeContext);
   const history = useHistory();
   const { id } = useParams();
@@ -17,44 +17,36 @@ function RecipeDetails() {
     }
   };
 
-  // const changeIngredient = () => {
-  //   const ingredientsRecipe = [];
-  //   const measureRecipe = [];
-  //   Object.keys(recipeDetails)
-  //     .forEach((ing) => ingredientsRecipe.push(ing.includes('strIngredient')));
-  //   setIngredients(ingredientsRecipe);
-  //   Object.keys(response.meals[0])
-  //     .forEach((measures) => measureRecipe.push(measures.includes('strMeasure')));
-  //   setMeasure(measureRecipe);
-  //   console.log(ingredients);
-  //   console.log(measure);
-  // };
-
   useEffect(() => {
     async function fetchData() {
       const data = await fetch(checkUrl());
       const response = await data.json();
-      console.log(response);
       if (history.location.pathname.includes('meals')) {
         setRecipeDetails(response.meals[0]);
       } if (history.location.pathname.includes('drinks')) {
         setRecipeDetails(response.drinks[0]);
       }
-      //   const ingRecipe = [];
-      //   const measureRecipe = [];
-      //   recipeDetails.forEach((ing, index) => {
-      //     console.log(Object.entries(recipeDetails[index]));
-      //     if (ing.includes('strIngredient')) { ingRecipe.push(recipeDetails[index]); }
-      //   });
-      //   setIngredients(ingRecipe);
+      const ingRecipe = [];
+      const measureRecipe = [];
+      Object.keys(recipeDetails).forEach((ing) => {
+        if (ing.includes('strIngredient')
+        && recipeDetails[ing] !== null && recipeDetails[ing] !== '') {
+          ingRecipe.push(recipeDetails[ing]);
+        }
+      });
+      setIngredients(ingRecipe);
 
-    //   Object.keys(measureRecipe).forEach((ing, index) => {
-    //     if (ing.includes('strMeasure')) { measureRecipe.push(recipeDetails[index]); }
-    //   });
-    //   setMeasure(measureRecipe);
+      Object.keys(recipeDetails).forEach((ing) => {
+        if (ing.includes('strMeasure')
+        && recipeDetails[ing] !== null && recipeDetails[ing] !== ' ') {
+          measureRecipe.push(recipeDetails[ing]);
+        }
+      });
+      setMeasure(measureRecipe);
     }
     fetchData();
-  }, []);
+  }, [checkUrl, history.location.pathname,
+    recipeDetails, setIngredients, setMeasure, setRecipeDetails]);
   return (
     <section>
       <h1>RecipeDetails</h1>
@@ -81,15 +73,18 @@ function RecipeDetails() {
           <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
         )
         : (
-          <h2 data-testid="recipe-title">{recipeDetails.strGlass}</h2>
+          <h2 data-testid="recipe-title">{recipeDetails.strDrink}</h2>
         )}
 
-      { history.location.pathname.includes('meals') // Recipe Category
+      { history.location.pathname.includes('meals') // Category
         ? (
           <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
         )
         : (
-          <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
+          <>
+            <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
+            <h3 data-testid="recipe-category">{recipeDetails.strAlcoholic}</h3>
+          </>
         )}
 
       <ul>
@@ -99,34 +94,25 @@ function RecipeDetails() {
             key={ index }
             data-testid={ `${index}-ingredient-name-and-measure` }
           >
-            {ingredient}
+            {`${ingredient} ${measure[index]}` }
           </li>
         ))}
       </ul>
-      <ul>
-        Ingredients
-        { measure.map((element, index) => (
-          <li
-            key={ index }
-            data-testid={ `${index}-ingredient-name-and-measure` }
-          >
-            {element}
-          </li>
-        ))}
-      </ul>
-      {/* { history.location.pathname.includes('meals') // Recipe Video
+
+      { history.location.pathname.includes('meals') // Recipe Video
         ? (
           <iframe
             title={ recipeDetails.strMeal }
             width="420"
             height="315"
             src={ recipeDetails.strYoutube }
+            data-testid="video"
           />
 
         )
         : (
           null
-        )} */}
+        )}
 
       <p data-testid="instructions">{recipeDetails.strInstructions}</p>
 

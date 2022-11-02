@@ -19,8 +19,8 @@ function Header() {
       return (<h1 data-testid="page-title">Profile</h1>);
     case '/done-recipes':
       return (<h1 data-testid="page-title"> Done Recipes </h1>);
-    case '/favorite-recipes':
-      return (<h1 data-testid="page-title">Favorite Recipes</h1>);
+    // case '/favorite-recipes':
+    //   return (<h1 data-testid="page-title">Favorite Recipes</h1>);
     default: (
       <h1>Recipes</h1>);
     }
@@ -30,8 +30,8 @@ function Header() {
     switch (history.location.pathname) {
     case '/profile':
       return ('');
-    case '/favorite-recipes':
-      return ('');
+    // case '/favorite-recipes':
+    //   return ('');
     case '/done-recipes':
       return ('');
     default:

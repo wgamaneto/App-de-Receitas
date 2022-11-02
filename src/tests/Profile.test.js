@@ -57,21 +57,21 @@ describe('Testando Profile', () => {
     expect(doneRecipe).toBeInTheDocument();
   });
 
-  it('testando rota favorites recipes', () => {
-    const { history } = renderWithRouter(
-      <App />,
-    );
-    act(() => {
-      history.push('/profile');
-    });
-    const profileFavoriteBtn = screen.getByTestId('profile-favorite-btn');
-    userEvent.click(profileFavoriteBtn);
-    const { pathname } = history.location;
+  // it('testando rota favorites recipes', () => {
+  //   const { history } = renderWithRouter(
+  //     <App />,
+  //   );
+  //   act(() => {
+  //     history.push('/profile');
+  //   });
+  //   const profileFavoriteBtn = screen.getByTestId('profile-favorite-btn');
+  //   userEvent.click(profileFavoriteBtn);
+  //   const { pathname } = history.location;
 
-    expect(pathname).toBe('/favorite-recipes');
-    const favoriteRecipe = screen.getByText('Favorite Recipes');
-    expect(favoriteRecipe).toBeInTheDocument();
-  });
+  //   expect(pathname).toBe('/favorite-recipes');
+  //   const favoriteRecipe = screen.getByText('Favorite Recipes');
+  //   expect(favoriteRecipe).toBeInTheDocument();
+  // });
   it('testando rota logout', () => {
     const { history } = renderWithRouter(
       <App />,

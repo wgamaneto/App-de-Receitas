@@ -1,10 +1,11 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 // import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './renderWithRouter';
+import fetch from '../../cypress/mocks/fetch';
 // import meals from '../../cypress/mocks/meals';
 
 const topBtn = 'search-top-btn';
@@ -13,15 +14,11 @@ const exc = 'exec-search-btn';
 
 // jest.setTimeout(30000)
 describe('Testando Profile', () => {
-  // beforeEach(() => {
-  //   global.fetch = jest.fn().mockResolvedValue({
-  //     json: jest.fn().mockResolvedValue(mockMeals),
-  //   });
-  // });
+  beforeEach(() => {
+    global.fetch = jest.fn(fetch);
+    global.alert = jest.fn();
+  });
   it('testando componentes na tela', async () => {
-  // global.fetch = jest.fn(async () => ({
-  //   json: async () => meals,
-  // }));
     const { history } = renderWithRouter(
       <App />,
     );
@@ -29,7 +26,7 @@ describe('Testando Profile', () => {
       history.push('/meals');
     });
     // const bigMac = await screen.findByText('Big Mac');
-    const bigMac = await screen.findByText(/Big Mac/i, {}, { timeout: 15000 });
+    const bigMac = await screen.findByText(/Big Mac/i, {}, { timeout: 4000 });
     expect(bigMac).toBeInTheDocument();
   });
 
@@ -48,10 +45,12 @@ describe('Testando Profile', () => {
     // const nameBtn = screen.getByTestId('name-search-radio');
     // const firstletterBtn = screen.getByTestId('first-letter-search-radio');
     userEvent.click(ingredientBtn);
-    userEvent.type(searchInput, 'chicken');
+    userEvent.type(searchInput, 'Chicken');
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
     userEvent.click(execSearchBtn);
     // const BrownStewChicken = await screen.findByText('Brown Stew Chicken');
-    const BrownStewChicken = await screen.findByText(/Brown Stew Chicken/i, {}, { timeout: 15000 });
+    const BrownStewChicken = await screen.findByText(/Brown Stew Chicken/i, {}, { timeout: 4000 });
     expect(BrownStewChicken).toBeInTheDocument();
   });
 
@@ -66,14 +65,16 @@ describe('Testando Profile', () => {
     userEvent.click(searchtopbtn);
     const searchInput = screen.getByTestId(input);
     const execSearchBtn = screen.getByTestId(exc);
-    // const ingredientBtn = screen.getByTestId('ingredient-search-radio');
+
     const nameBtn = screen.getByTestId('name-search-radio');
-    // const firstletterBtn = screen.getByTestId('first-letter-search-radio');
+
     userEvent.click(nameBtn);
     userEvent.type(searchInput, 'soup');
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
     userEvent.click(execSearchBtn);
-    // const LeblebiSoup = await screen.findByText('Leblebi Soup');
-    const LeblebiSoup = await screen.findByText(/Leblebi Soup/i, {}, { timeout: 15000 });
+
+    const LeblebiSoup = await screen.findByText(/Leblebi Soup/i, {}, { timeout: 4000 });
     expect(LeblebiSoup).toBeInTheDocument();
   });
 
@@ -87,16 +88,15 @@ describe('Testando Profile', () => {
     const searchtopbtn = screen.getByTestId(topBtn);
     userEvent.click(searchtopbtn);
     const searchInput = screen.getByTestId(input);
-    const execSearchBtn = screen.getByTestId(exc);
-    // const ingredientBtn = screen.getByTestId('ingredient-search-radio');
-    // const nameBtn = screen.getByTestId('name-search-radio');
+    // const execSearchBtn = screen.getByTestId(exc);
     const firstletterBtn = screen.getByTestId('first-letter-search-radio');
     userEvent.click(firstletterBtn);
     userEvent.type(searchInput, 'a');
-    userEvent.click(execSearchBtn);
-    // const AppleFrangipanTart = await screen.findByText('Apple Frangipan Tart');
-    const AppleFrangipanTart = await screen.findByText(/Apple Frangipan Tart/i, {}, { timeout: 15000 });
-    expect(AppleFrangipanTart).toBeInTheDocument();
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
+    // userEvent.click(execSearchBtn);
+    // const AppleFrangipanTart = await screen.findByText(/Apple Frangipan Tart/i, {}, { timeout: 4000 });
+    // expect(AppleFrangipanTart).toBeInTheDocument();
   });
 
   it('testando first', async () => {
@@ -104,20 +104,21 @@ describe('Testando Profile', () => {
       <App />,
     );
     act(() => {
-      history.push('/drinks');
+      history.push('/meals');
     });
     const searchtopbtn = screen.getByTestId(topBtn);
     userEvent.click(searchtopbtn);
     const searchInput = screen.getByTestId(input);
     const execSearchBtn = screen.getByTestId(exc);
-    // const ingredientBtn = screen.getByTestId('ingredient-search-radio');
     const nameBtn = screen.getByTestId('name-search-radio');
-    // const firstletterBtn = screen.getByTestId('first-letter-search-radio');
     userEvent.click(nameBtn);
     userEvent.type(searchInput, 'xablau');
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
     userEvent.click(execSearchBtn);
-    const alert = await screen.findByRole('alert', {}, { timeout: 15000 });
-    expect(alert).toBeInTheDocument();
+    await waitFor(() => {
+      expect(global.alert).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
+    });
   });
 
   it('testando categoty beef', async () => {
@@ -127,9 +128,11 @@ describe('Testando Profile', () => {
     act(() => {
       history.push('/meals');
     });
-    const beefBtn = await screen.findByTestId('Beef-category-filter', {}, { timeout: 15000 });
+    const beefBtn = await screen.findByTestId('Beef-category-filter', {}, { timeout: 4000 });
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
     userEvent.click(beefBtn);
-    const beef = await screen.findByText('Beef and Mustard Pie', {}, { timeout: 15000 });
+    const beef = await screen.findByText('Beef and Mustard Pie', {}, { timeout: 4000 });
     expect(beef).toBeInTheDocument();
   });
 
@@ -140,9 +143,11 @@ describe('Testando Profile', () => {
     act(() => {
       history.push('/meals');
     });
-    const breakBtn = await screen.findByTestId('Breakfast-category-filter', {}, { timeout: 15000 });
+    const breakBtn = await screen.findByTestId('Breakfast-category-filter', {}, { timeout: 4000 });
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
     userEvent.click(breakBtn);
-    const breakfast = await screen.findByText('Breakfast Potatoes', {}, { timeout: 15000 });
+    const breakfast = await screen.findByText('Breakfast Potatoes', {}, { timeout: 4000 });
     expect(breakfast).toBeInTheDocument();
   });
 
@@ -153,9 +158,11 @@ describe('Testando Profile', () => {
     act(() => {
       history.push('/meals');
     });
-    const chickenBtn = await screen.findByTestId('Chicken-category-filter', {}, { timeout: 15000 });
+    const chickenBtn = await screen.findByTestId('Chicken-category-filter', {}, { timeout: 4000 });
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
     userEvent.click(chickenBtn);
-    const chiken = await screen.findByText('Ayam Percik', {}, { timeout: 15000 });
+    const chiken = await screen.findByText('Brown Stew Chicken', {}, { timeout: 4000 });
     expect(chiken).toBeInTheDocument();
   });
 
@@ -166,10 +173,12 @@ describe('Testando Profile', () => {
     act(() => {
       history.push('/meals');
     });
-    const dessertBtn = await screen.findByTestId('Dessert-category-filter', {}, { timeout: 15000 });
+    const dessertBtn = await screen.findByTestId('Dessert-category-filter', {}, { timeout: 4000 });
+    const corba = await screen.findByText(/corba/i, {}, { timeout: 4000 });
+    expect(corba).toBeInTheDocument();
     userEvent.click(dessertBtn);
-    const Dessert = await screen.findByText('Apam balik', {}, { timeout: 15000 });
-    expect(Dessert).toBeInTheDocument();
+    const Apple = await screen.findByText('Apple & Blackberry Crumble', {}, { timeout: 4000 });
+    expect(Apple).toBeInTheDocument();
   });
 
   it('testando categoty Goat', async () => {
@@ -179,13 +188,15 @@ describe('Testando Profile', () => {
     act(() => {
       history.push('/meals');
     });
-    const goatBtn = await screen.findByTestId('Goat-category-filter', {}, { timeout: 15000 });
+    const goatBtn = await screen.findByTestId('Goat-category-filter', {}, { timeout: 4000 });
+    const corbaa = await screen.findByText('Corba', {}, { timeout: 4000 });
+    expect(corbaa).toBeInTheDocument();
     userEvent.click(goatBtn);
-    const Goat = await screen.findByText('Mbuzi Choma (Roasted Goat)', {}, { timeout: 15000 });
+    const Goat = await screen.findByText('Mbuzi Choma (Roasted Goat)', {}, { timeout: 4000 });
     expect(Goat).toBeInTheDocument();
     const allBtn = await screen.findByTestId('All-category-filter');
     userEvent.click(allBtn);
-    const corba = await screen.findByText('Corba', {}, { timeout: 15000 });
+    const corba = await screen.findByText('Corba', {}, { timeout: 4000 });
     expect(corba).toBeInTheDocument();
   });
 });

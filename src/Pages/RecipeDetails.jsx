@@ -1,53 +1,48 @@
-import React, { useEffect, useContext } from 'react';
+import clipboardCopy from 'clipboard-copy';
+import React, { useEffect, useContext, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
+import shareIcon from '../images/shareIcon.svg';
+import { fetchRecipe, fetchSugestion } from '../services/RequestAPI';
 // import FavoriteButton from '../components/FavoriteButton';
 
 function RecipeDetails() {
   const { setRecipeDetails, recipeDetails, ingredients, measure,
-    setIngredients, setMeasure,
+    setIngredients, setMeasure, setRecipeSugestion,
   } = useContext(RecipeContext);
+  const [isMessage, setIsMessage] = useState(false);
   const history = useHistory();
   const { id } = useParams();
 
-  const checkUrl = () => {
-    if (history.location.pathname.includes('meals')) {
-      return (`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-    } if (history.location.pathname.includes('drinks')) {
-      return (`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-    }
+  useEffect(() => {
+    fetchRecipe(history.location.pathname, id, setRecipeDetails);
+    const ingRecipe = [];
+    const measureRecipe = [];
+    Object.keys(recipeDetails).forEach((ing) => {
+      if (ing.includes('strIngredient')
+        && recipeDetails[ing] !== null && recipeDetails[ing] !== '') {
+        ingRecipe.push(recipeDetails[ing]);
+      }
+    });
+    setIngredients(ingRecipe);
+
+    Object.keys(recipeDetails).forEach((ing) => {
+      if (ing.includes('strMeasure')
+        && recipeDetails[ing] !== null && recipeDetails[ing] !== ' ') {
+        measureRecipe.push(recipeDetails[ing]);
+      }
+    });
+    setMeasure(measureRecipe);
+
+    fetchSugestion(history.location.pathname, setRecipeSugestion);
+  }, [history.location.pathname, id, recipeDetails,
+    setIngredients, setMeasure, setRecipeDetails, setRecipeSugestion]);
+
+  const shareRecipe = () => {
+    clipboardCopy(window.location.href);
+    setIsMessage(true);
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await fetch(checkUrl());
-      const response = await data.json();
-      if (history.location.pathname.includes('meals')) {
-        setRecipeDetails(response.meals[0]);
-      } if (history.location.pathname.includes('drinks')) {
-        setRecipeDetails(response.drinks[0]);
-      }
-      const ingRecipe = [];
-      const measureRecipe = [];
-      Object.keys(recipeDetails).forEach((ing) => {
-        if (ing.includes('strIngredient')
-        && recipeDetails[ing] !== null && recipeDetails[ing] !== '') {
-          ingRecipe.push(recipeDetails[ing]);
-        }
-      });
-      setIngredients(ingRecipe);
-
-      Object.keys(recipeDetails).forEach((ing) => {
-        if (ing.includes('strMeasure')
-        && recipeDetails[ing] !== null && recipeDetails[ing] !== ' ') {
-          measureRecipe.push(recipeDetails[ing]);
-        }
-      });
-      setMeasure(measureRecipe);
-    }
-    fetchData();
-  }, [checkUrl, history.location.pathname,
-    recipeDetails, setIngredients, setMeasure, setRecipeDetails]);
   return (
     <section>
       <h1>RecipeDetails</h1>
@@ -116,8 +111,37 @@ function RecipeDetails() {
         )}
 
       <p data-testid="instructions">{recipeDetails.strInstructions}</p>
+
+      <button
+        type="button"
+        name="share-btn"
+        data-testid="share-btn"
+        onClick={ shareRecipe }
+      >
+        <img src={ shareIcon } alt="Share Recipe" />
+      </button>
     </section>
 
+      <button
+        type="button"
+        name="favorite-btn"
+        data-testid="favorite-btn"
+        onClick={ shareRecipe }
+      >
+        Favorite
+      </button>
+
+      { isMessage ? <p>Link copied!</p> : null }
+
+      <button
+        type="button"
+        name="start-btn"
+        data-testid="start-recipe-btn"
+        className="btn-fixed"
+      >
+        Start Recipe
+      </button>
+    </section>
   );
 }
 

@@ -286,7 +286,5 @@ function RecipeInProgress() {
             ) : (<div>oi</div>)}
           </div>)}
     </div>
-  );
-}
-
+    
 export default RecipeInProgress;

@@ -16,7 +16,9 @@ export default function Footer() {
       <Link to="/drinks">
         <img src={ drinks } alt="Drinks" data-testid="drinks-bottom-btn" />
       </Link>
-
+      <Link to="/recipes-in-progress">
+        <img src={ meals } alt="start recipe" data-testid="start-recipe-btn" />
+      </Link>
     </footer>
   );
 }

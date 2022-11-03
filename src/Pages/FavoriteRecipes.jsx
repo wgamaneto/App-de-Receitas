@@ -8,6 +8,8 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+// Obrigado Caren e Henryk
+
 function FavoriteRecipes() {
   const history = useHistory();
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -43,8 +45,8 @@ function FavoriteRecipes() {
     history.push(`/${element.type}s/${element.id}`);
   };
 
-  const unfavoriteRecipe = (el) => {
-    const newFiltred = favoriteRecipes.filter((element) => element.id !== el.id);
+  const unfavoriteRecipe = (ximboca) => {
+    const newFiltred = favoriteRecipes.filter((element) => element.id !== ximboca.id);
     setBackupFavoriteRecipes(newFiltred);
     setFavoriteRecipes(newFiltred);
   };
@@ -85,10 +87,13 @@ function FavoriteRecipes() {
         )}
         {favoriteRecipes?.map((element, index) => (
           <div key={ element.name }>
-            <button type="button" onClick={ () => goToDetailPage(element) }>
+            <button
+              type="button"
+              onClick={ () => goToDetailPage(element) }
+            >
               <img
-                src={ element.image }
                 data-testid={ `${index}-horizontal-image` }
+                src={ element.image }
                 alt="imagem da receita"
               />
               <p data-testid={ `${index}-horizontal-name` }>{element.name}</p>
@@ -105,7 +110,10 @@ function FavoriteRecipes() {
                 alt="compartilhar"
               />
             </button>
-            <button type="button" onClick={ () => unfavoriteRecipe(element) }>
+            <button
+              type="button"
+              onClick={ () => unfavoriteRecipe(element) }
+            >
               <img
                 data-testid={ `${index}-horizontal-favorite-btn` }
                 src={ blackHeartIcon }

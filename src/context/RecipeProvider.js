@@ -42,7 +42,7 @@ function RecipeProvider({ children }) {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const [mealOrDrinks, setMealOrDrinks] = useState('');
-  const [favoriteRecipes, setFavoriteRecipes] = useState({});
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [filteredFavRecipes, setFilteredFavRecipes] = useState([]);
   const [backupfavoriteRecipes, setBackupFavoriteRecipes] = useState([]);
   const [showCopyMessage, setShowCopyMessage] = useState([]);

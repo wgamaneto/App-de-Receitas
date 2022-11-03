@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+/* import blackHeartIcon from '../images/blackHeartIcon.svg'; */
 import './RecipeInProgress.css';
 
 function RecipeInProgress() {
@@ -15,13 +15,9 @@ function RecipeInProgress() {
   const [recipeSteps, setRecipeSteps] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
   const [linkCopied, setLinkCopied] = useState(false);
-  const [favoriteRecipe, setFavoriteRecipe] = useState([]);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isAlchoolic, setIsAlchoolic] = useState('');
   const bars = history.location.pathname.split('/');
   const path = bars[1];
   const fetchRecipeDetails = useCallback(async () => {
-    console.log(recipeId);
     if (path === 'meals') {
       const data = await
       fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
@@ -59,7 +55,6 @@ function RecipeInProgress() {
       }
     }
   }, [recipeDetails, path]);
-
   const initialState = useCallback(() => {
     let local = JSON.parse(localStorage.getItem('inRecipeProgress'));
     if (!local) {
@@ -70,20 +65,12 @@ function RecipeInProgress() {
     }
     if (local[path][recipeId]) {
       setRecipeSteps(local[path][recipeId]);
-      /* local[path][recipeId].forEach((recipe) => {
-        const itens = document.getElementsByName(recipe);
-        console.log(itens);
-        itens[0].className = 'cutted';
-        checkbox[0].checked = true;
-      }); */
     }
   }, [path, recipeId]);
-
   useEffect(() => {
     getIngredients();
     initialState();
   }, [getIngredients, initialState]);
-
   useEffect(() => {
     let local = JSON.parse(localStorage.getItem('inRecipeProgress'));
     console.log(local);
@@ -96,7 +83,6 @@ function RecipeInProgress() {
     local[path][recipeId] = recipeSteps;
     localStorage.setItem('inRecipeProgress', JSON.stringify(local));
   }, [recipeSteps, path, recipeId]);
-
   const validateButton = () => {
     if (recipeSteps.length === Ingredients.length - 1) {
       setIsDisabled(false);
@@ -104,42 +90,13 @@ function RecipeInProgress() {
       setIsDisabled(true);
     }
   };
-
   const finishRecipe = () => {
     history.push('/done-recipes');
-    localStorage.setItem('favoriteRecipes', [...favoriteRecipe]);
   };
-
-  const saveOnFavoriteRecipes = () => {
-    setIsFavorite(!isFavorite);
-    if (path === 'meal') {
-      setFavoriteRecipe([{
-        id: recipeDetails[0].idMeal,
-        type: recipeDetails[0].strTags,
-        nationality: recipeDetails[0].strArea,
-        category: recipeDetails[0].strCategory,
-        alchoolicOrNot: 'Not',
-        name: recipeDetails[0].strMeal,
-        image: recipeDetails[0].strMealThumb }]);
-    } else if (path === 'drinks') {
-      setFavoriteRecipe([{
-        id: recipeDetails[0].idDrink,
-        type: recipeDetails[0].strGlass,
-        category: recipeDetails[0].strCategory,
-        alchoolicOrNot: isAlchoolic,
-        name: recipeDetails[0].strDrink,
-        image: recipeDetails[0].strDrinkThumb }]);
-    }
-    if (isFavorite === false) {
-      setFavoriteRecipe('');
-    }
-  };
-
   const saveOnClipBoard = () => {
     clipboardCopy(`http://localhost:3000/${path}/${recipeId}`);
     setLinkCopied(!linkCopied);
   };
-
   const saveDoneSteps = ({ target }) => {
     const itens = document.getElementsByName(target.id);
     console.log(itens);
@@ -177,9 +134,9 @@ function RecipeInProgress() {
                     {recipe.strCategory}
                   </h4>
                   <img
-                    src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+                    src={ whiteHeartIcon }
                     alt="favorite button"
-                    onClick={ saveOnFavoriteRecipes }
+                    onClick={ () => {} }
                     aria-hidden
                     data-testid="favorite-btn"
                   />
@@ -240,9 +197,9 @@ function RecipeInProgress() {
                     {recipe.strCategory}
                   </h4>
                   <img
-                    src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+                    src={ whiteHeartIcon }
                     alt="favorite button"
-                    onClick={ saveOnFavoriteRecipes }
+                    onClick={ () => {} }
                     aria-hidden
                     data-testid="favorite-btn"
                   />
@@ -288,5 +245,4 @@ function RecipeInProgress() {
     </div>
   );
 }
-
 export default RecipeInProgress;

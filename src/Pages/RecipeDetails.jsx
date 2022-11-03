@@ -4,6 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 import shareIcon from '../images/shareIcon.svg';
 import { fetchRecipe, fetchSugestion } from '../services/RequestAPI';
+// import FavoriteButton from '../components/FavoriteButton';
 
 function RecipeDetails() {
   const { setRecipeDetails, recipeDetails, ingredients, measure,
@@ -93,7 +94,7 @@ function RecipeDetails() {
           </li>
         ))}
       </ul>
-
+      {/* <FavoriteButton /> */}
       { history.location.pathname.includes('meals') // Recipe Video
         ? (
           <iframe
@@ -119,6 +120,7 @@ function RecipeDetails() {
       >
         <img src={ shareIcon } alt="Share Recipe" />
       </button>
+    </section>
 
       <button
         type="button"

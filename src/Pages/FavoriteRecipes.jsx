@@ -1,105 +1,135 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import FavoriteButton from '../components/FavoriteButton';
-import Header from '../components/Header';
-import RecipeProvider from '../context/RecipeContext';
+import copy from 'clipboard-copy';
+
 import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-const clip = require('clipboard-copy');
+// Obrigado Caren e Henryk
 
 function FavoriteRecipes() {
-  const { favoriteRecipes } = useContext(RecipeProvider);
-  const [copied, setCopied] = useState(false);
-  const [filteredFavRecipes, setFilteredFavRecipes] = useState(favoriteRecipes);
-  const [filter, setFilter] = useState();
+  const history = useHistory();
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [backupfavoriteRecipes, setBackupFavoriteRecipes] = useState([]);
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
+  useEffect(() => {
+    setBackupFavoriteRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')));
+    setFavoriteRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')));
+  }, []);
+
+  const tempo = 3000;
+  const shareBTN = (elements) => {
+    setShowCopyMessage(true);
+    copy(`http://localhost:3000/${elements.type}s/${elements.id}`);
+    setTimeout(() => setShowCopyMessage(false), tempo);
+  };
+
+  const handleFilterByAll = () => {
+    setFavoriteRecipes(backupfavoriteRecipes);
+  };
+
+  const handleFilterByMeal = () => {
+    setFavoriteRecipes(backupfavoriteRecipes
+      .filter((elementos) => elementos.type === 'meal'));
+  };
+
+  const handleFilterByDrink = () => {
+    setFavoriteRecipes(backupfavoriteRecipes
+      .filter((element) => element.type === 'drink'));
+  };
+
+  const goToDetailPage = (element) => {
+    history.push(`/${element.type}s/${element.id}`);
+  };
+
+  const unfavoriteRecipe = (ximboca) => {
+    const newFiltred = favoriteRecipes.filter((element) => element.id !== ximboca.id);
+    setBackupFavoriteRecipes(newFiltred);
+    setFavoriteRecipes(newFiltred);
+  };
 
   useEffect(() => {
-    const recipes = favoriteRecipes.filter(
-      (recipe) => !filter || recipe.type === filter,
-    );
-    setFilteredFavRecipes(recipes);
-  }, [favoriteRecipes, filter]);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  }, [favoriteRecipes]);
 
   return (
     <div>
-      <Header page="Favorite Recipes" search={ false } />
-      <div className="content">
+      <Header title="Favorite Recipes" hasSearchIcon={ false } />
+      <div>
         <button
           data-testid="filter-by-all-btn"
           type="button"
-          name="all"
-          onClick={ () => setFilter() }
+          onClick={ handleFilterByAll }
         >
           All
         </button>
         <button
           data-testid="filter-by-meal-btn"
           type="button"
-          onClick={ () => setFilter('meal') }
+          onClick={ handleFilterByMeal }
         >
           Meals
         </button>
         <button
           data-testid="filter-by-drink-btn"
           type="button"
-          onClick={ () => setFilter('drink') }
+          onClick={ handleFilterByDrink }
         >
-          Drinks
+          Driks
         </button>
-        {filteredFavRecipes.map((recipe, index) => (
-          <div key={ index }>
-            <Link
-              to={ `/${recipe.type}s/${recipe.id}` }
+      </div>
+      <div>
+        { showCopyMessage && (
+          <p>Link copied!</p>
+        )}
+        {favoriteRecipes?.map((element, index) => (
+          <div key={ element.name }>
+            <button
+              type="button"
+              onClick={ () => goToDetailPage(element) }
             >
               <img
                 data-testid={ `${index}-horizontal-image` }
-                className="recipe-card-img"
-                alt="Recipe"
-                src={ recipe.image }
+                src={ element.image }
+                alt="imagem da receita"
               />
-              <span
-                data-testid={ `${index}-horizontal-name` }
-              >
-                {recipe.name}
-              </span>
-            </Link>
-            <span
-              data-testid={ `${index}-horizontal-top-text` }
-            >
-              {recipe.nationality}
-              {recipe.alcoholicOrNot}
-              {recipe.category}
-            </span>
-            {copied && <span>Link copied!</span>}
+              <p data-testid={ `${index}-horizontal-name` }>{element.name}</p>
+            </button>
+            <p data-testid={ `${index}-horizontal-top-text` }>{element.category}</p>
+            <p data-testid={ `${index}-horizontal-done-date` }>{element.doneDate}</p>
             <button
               type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
-              src={ shareIcon }
-              onClick={ () => {
-                const url = `http://localhost:3000/${recipe.type}s/${recipe.id}`;
-                clip(url);
-                setCopied(true);
-              } }
+              onClick={ () => shareBTN(element) }
             >
-              Compartilhar
+              <img
+                data-testid={ `${index}-horizontal-share-btn` }
+                src={ shareIcon }
+                alt="compartilhar"
+              />
             </button>
-            <FavoriteButton
-              testId={ `${index}-horizontal-favorite-btn` }
-              recipe={ recipe }
-            />
-            { recipe.tags?.length && recipe.tags.map((tag) => (
-              <span
-                key={ tag }
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-              >
-                {tag}
-              </span>
-            ))}
+            <button
+              type="button"
+              onClick={ () => unfavoriteRecipe(element) }
+            >
+              <img
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src={ blackHeartIcon }
+                alt="favoritar"
+              />
+            </button>
+            <p data-testid={ `${index}-horizontal-top-text` }>
+              {`${element.nationality} - ${element.category}`}
+            </p>
+            <p data-testid={ `${index}-horizontal-top-text` }>{element.alcoholicOrNot}</p>
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 }
+
 export default FavoriteRecipes;

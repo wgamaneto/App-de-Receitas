@@ -43,6 +43,9 @@ function RecipeProvider({ children }) {
   const [measure, setMeasure] = useState([]);
   const [mealOrDrinks, setMealOrDrinks] = useState('');
   const [favoriteRecipes, setFavoriteRecipes] = useState({});
+  const [filteredFavRecipes, setFilteredFavRecipes] = useState([]);
+  const [backupfavoriteRecipes, setBackupFavoriteRecipes] = useState([]);
+  const [showCopyMessage, setShowCopyMessage] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(testRoute());
   const [recipeSugestion, setRecipeSugestion] = useState([]);
   const mealsByIngredients = async (filter) => fetch(
@@ -198,10 +201,17 @@ function RecipeProvider({ children }) {
     setFavoriteRecipes,
     recipeSugestion,
     setRecipeSugestion,
+    filteredFavRecipes,
+    setFilteredFavRecipes,
+    backupfavoriteRecipes,
+    setBackupFavoriteRecipes,
+    showCopyMessage,
+    setShowCopyMessage,
   }), [filterValue, filterType, mealsData, drinkData,
     toRender, doneRecipes, handleChange, personalData, handleAPIReturn,
     isToggled, categories, searchedRecipes, fetchMeals, fetchDrinks, selectedCategory,
-    recipeDetails, ingredients, measure, mealOrDrinks, favoriteRecipes, recipeSugestion]);
+    recipeDetails, ingredients, measure, mealOrDrinks, favoriteRecipes,
+    filteredFavRecipes, backupfavoriteRecipes, showCopyMessage, recipeSugestion]);
 
   return (
     <RecipeContext.Provider value={ contextValue }>

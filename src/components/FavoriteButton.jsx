@@ -25,10 +25,10 @@ function FavoriteButton({ recipe, teste }) {
 
   const favorite = () => {
     if (isFavorite) {
-      setFavoriteRecipes(deleteFavoriteRecipe(favoriteRecipe));
+      setFavoriteRecipes(setFavoriteRecipes(favoriteRecipe));
       setIsFavorite(false);
     } else {
-      setFavoriteRecipes(saveFavoriteRecipe(favoriteRecipe));
+      setFavoriteRecipes(setFavoriteRecipes(favoriteRecipe));
       setIsFavorite(true);
     }
   };
@@ -41,13 +41,15 @@ function FavoriteButton({ recipe, teste }) {
   }, [favoriteRecipes, recipe, recipeId]);
 
   return (
-    <img
-      data-teste={ teste }
-      src={ isFavorite ? favoriteIcon : unfavoriteIcon }
-      alt="favorite"
-      onClick={ () => favorite() }
-      aria-hidden="true"
-    />
+    <button type="button">
+      <img
+        data-teste={ teste }
+        src={ isFavorite ? favoriteIcon : unfavoriteIcon }
+        alt="favorite"
+        onClick={ () => favorite() }
+        aria-hidden="true"
+      />
+    </button>
   );
 }
 

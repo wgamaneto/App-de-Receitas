@@ -245,4 +245,5 @@ function RecipeInProgress() {
     </div>
   );
 }
+
 export default RecipeInProgress;

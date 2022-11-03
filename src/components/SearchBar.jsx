@@ -8,22 +8,61 @@ function SearchBar() {
 
   const {
     filterValue,
+    filterType,
+    setFilterValue,
     setFilterType,
-    filterHandleChange,
-    mealsAPI, // fetchMeals
-    drinksAPI, // fetchDrinks
+    setMealsData,
+    setDrinkData,
+    // mealsAPI, // fetchMeals
+    // drinksAPI, // fetchDrinks
   } = useContext(RecipeContext);
 
-  const handleCLick = () => {
+  // const checkQuantity = () => {
+  //   if (filterValue[typedSearch].length > 1) {
+  //     return (global.alert('Your search must have only 1 (one) character'));
+  //   }
+  // };
+
+  const checkUrl = () => {
     if (history.location.pathname.includes('drink')) {
-      drinksAPI(filterValue);
-    } else if (history.location.pathname.includes('meals')) {
-      mealsAPI(filterValue);
+      return ('https://www.thecocktaildb.com/api/json/v1/1/');
+    } if (history.location.pathname.includes('meals')) {
+      return ('https://www.themealdb.com/api/json/v1/1/');
     }
+  };
+
+  const handleCLick = async () => {
+    const urlBase = checkUrl();
+    let urlFinal = '';
+    if (filterType.filter === 'ingredients') {
+      urlFinal = `${urlBase}filter.php?i=${filterValue.typedSearch}`;
+    } else if (filterType.filter === 'name') {
+      urlFinal = `${urlBase}search.php?s=${filterValue.typedSearch}`;
+    } else if (filterType.filter === 'firstLetter') {
+      urlFinal = `${urlBase}search.php?f=${filterValue.typedSearch}`;
+    }
+    const { typedSearch } = filterValue;
+    if (filterType.filter === 'firstLetter' && typedSearch.length !== 1) {
+      return global.alert('Your search must have only 1 (one) character');
+    }
+    const data = await fetch(urlFinal);
+    const response = await data.json();
+    if (response.drinks === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (response.meals === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    setDrinkData(response.drinks);
+    setMealsData(response.meals);
   };
 
   const handleRadio = ({ target: { value } }) => {
     setFilterType({ filter: value });
+  };
+
+  const filterHandleChange = ({ target: { value } }) => {
+    setFilterValue({ typedSearch: value });
   };
 
   return (

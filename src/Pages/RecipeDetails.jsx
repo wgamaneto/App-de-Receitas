@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
+// import FavoriteButton from '../components/FavoriteButton';
 
 function RecipeDetails() {
   const { setRecipeDetails, recipeDetails, ingredients, measure,
@@ -98,7 +99,7 @@ function RecipeDetails() {
           </li>
         ))}
       </ul>
-
+      {/* <FavoriteButton /> */}
       { history.location.pathname.includes('meals') // Recipe Video
         ? (
           <iframe
@@ -115,7 +116,6 @@ function RecipeDetails() {
         )}
 
       <p data-testid="instructions">{recipeDetails.strInstructions}</p>
-
     </section>
 
   );

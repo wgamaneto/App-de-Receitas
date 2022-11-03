@@ -4,11 +4,12 @@ import { useParams, useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
 import shareIcon from '../images/shareIcon.svg';
 import { fetchRecipe, fetchSugestion } from '../services/RequestAPI';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 // import FavoriteButton from '../components/FavoriteButton';
 
 function RecipeDetails() {
   const { setRecipeDetails, recipeDetails, ingredients, measure,
-    setIngredients, setMeasure, setRecipeSugestion,
+    setIngredients, setMeasure, setRecipeSugestion, // favoriteRecipes, setFavoriteRecipes,
   } = useContext(RecipeContext);
   const [isMessage, setIsMessage] = useState(false);
   const history = useHistory();
@@ -41,7 +42,12 @@ function RecipeDetails() {
   const shareRecipe = () => {
     clipboardCopy(window.location.href);
     setIsMessage(true);
+    // localStorage.setItem('favoriteRecipes', );
   };
+
+  // const opa = () => {
+
+  // };
 
   return (
     <>
@@ -129,7 +135,10 @@ function RecipeDetails() {
           data-testid="favorite-btn"
           onClick={ shareRecipe }
         >
-          Favorite
+          <img
+            src={ blackHeartIcon }
+            alt="favoritar"
+          />
         </button>
 
         { isMessage ? <p>Link copied!</p> : null }

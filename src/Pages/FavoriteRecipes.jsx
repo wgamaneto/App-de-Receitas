@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import copy from 'clipboard-copy';
@@ -7,12 +7,13 @@ import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import RecipeContext from '../context/RecipeContext';
 
 // Obrigado Caren e Henryk
 
 function FavoriteRecipes() {
   const history = useHistory();
-  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const { favoriteRecipes, setFavoriteRecipes } = useContext(RecipeContext);
   const [backupfavoriteRecipes, setBackupFavoriteRecipes] = useState([]);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   useEffect(() => {
@@ -47,13 +48,15 @@ function FavoriteRecipes() {
 
   const unfavoriteRecipe = (ximboca) => {
     const newFiltred = favoriteRecipes.filter((element) => element.id !== ximboca.id);
+    // const michaelJacksonDoAgresteBaiano
     setBackupFavoriteRecipes(newFiltred);
     setFavoriteRecipes(newFiltred);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFiltred));
   };
 
-  useEffect(() => {
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-  }, [favoriteRecipes]);
+  // useEffect(() => {
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  // }, [favoriteRecipes]);
 
   return (
     <div>
@@ -92,6 +95,7 @@ function FavoriteRecipes() {
               onClick={ () => goToDetailPage(element) }
             >
               <img
+                width={ 100 }
                 data-testid={ `${index}-horizontal-image` }
                 src={ element.image }
                 alt="imagem da receita"

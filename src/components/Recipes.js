@@ -63,11 +63,23 @@ function Recipes() {
   }, [history.location.pathname, setHandleAPIReturn, selectedCategory,
     fetchMeals, fetchDrinks]);
 
+  const redirect = (recipe) => {
+    const pathName = history.location.pathname;
+    if (pathName === '/meals') {
+      history.push(`${pathName}/${recipe.idMeal}/in-progress`);
+    } else if (pathName === '/drinks') {
+      history.push(`${pathName}/${recipe.idDrink}/in-progress`);
+    }
+  };
   return (
     <div className="recipe-conteiner">
       <Toggle />
       { handleAPIReturn.map((recipe, index) => (
         <div
+          onClick={
+            () => { redirect(recipe); }
+          }
+          aria-hidden
           data-testid={ `${index}-recipe-card` }
           key={ index }
         >

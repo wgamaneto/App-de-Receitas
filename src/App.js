@@ -11,6 +11,7 @@ import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import Drinks from './Pages/Drinks';
 import Header from './components/Header';
+import RecipeInProgress from './Pages/RecipeInProgress';
 // import Recipes from './components/Recipes';
 import RecipeDetails from './Pages/RecipeDetails';
 
@@ -25,17 +26,18 @@ function App() {
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route exact path="/header" component={ Header } />
+        {/* <Route exact path="/Meals/:id-da-receita" component={ RecipeDetails } /> */}
+        {/* <Route exact path="/drinks/:id-da-receita" component={ RecipeDetails } /> */}
+        <Route exact path="/meals/:id/in-progress" component={ RecipeInProgress } />
+        <Route
+          exact
+          path="/drinks/:id/in-progress"
+          component={ RecipeInProgress }
+        />
         <Route exact path="/meals/:id" component={ RecipeDetails } />
         <Route exact path="/drinks/:id" component={ RecipeDetails } />
         <Route path="/meals/:id" component={ RecipeDetails } />
         <Route path="/drinks/:id" component={ RecipeDetails } />
-
-        {/* <Route exact path="/Meals/:id/in-progress" component={ RecipeInProgress } /> */}
-        {/* <Route
-            exact
-            path="/drinks/:id/in-progress"
-            component={ RecipeInProgress }
-          /> */}
 
       </Switch>
     </RecipeProvider>

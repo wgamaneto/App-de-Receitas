@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 0 auto;
+  width: 500px;
+}
+
+.div-body {
+  background-color: lightgoldenrodyellow;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 500px;
+}
+
+.button-redirect {
+  background-color: coral;
+  border: 2px solid black;
+  flex: 2;
+  font-family: cursive;
+  font-size: large;
+  font-style: oblique;
+  margin: 5px;
+  text-transform: uppercase;
+}
+
+.profile-email {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: larger;
+  font-weight: 900;
+  justify-content: center;
+
+}

@@ -48,15 +48,9 @@ function Meals() {
   const getMealsByCategory = async ({ target: { value } }) => {
     if (value === 'All') {
       fetchAllMeals();
-      setFilterButton({
-        filter: false,
-      });
     }
     if (value === filterButton.name) {
       fetchAllMeals();
-      setFilterButton({
-        filter: false,
-      });
     } else if (value !== 'All' || value === 'Goat') {
       const results = await mealsByCategory(value);
       setFilterButton({

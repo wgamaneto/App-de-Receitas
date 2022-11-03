@@ -44,104 +44,106 @@ function RecipeDetails() {
   };
 
   return (
-    <section>
-      <h1>RecipeDetails</h1>
-      { history.location.pathname.includes('meals') // Photo
-        ? (
-          <img
-            src={ recipeDetails.strMealThumb }
-            alt="Meal"
-            data-testid="recipe-photo"
-            width="300px"
-          />
-        )
-        : (
-          <img
-            src={ recipeDetails.strDrinkThumb }
-            alt="Drink"
-            data-testid="recipe-photo"
-            width="300px"
-          />
-        )}
+    <>
+      <section>
+        <h1>RecipeDetails</h1>
+        { history.location.pathname.includes('meals') // Photo
+          ? (
+            <img
+              src={ recipeDetails.strMealThumb }
+              alt="Meal"
+              data-testid="recipe-photo"
+              width="300px"
+            />
+          )
+          : (
+            <img
+              src={ recipeDetails.strDrinkThumb }
+              alt="Drink"
+              data-testid="recipe-photo"
+              width="300px"
+            />
+          )}
 
-      { history.location.pathname.includes('meals') // Title
-        ? (
-          <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
-        )
-        : (
-          <h2 data-testid="recipe-title">{recipeDetails.strDrink}</h2>
-        )}
+        { history.location.pathname.includes('meals') // Title
+          ? (
+            <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
+          )
+          : (
+            <h2 data-testid="recipe-title">{recipeDetails.strDrink}</h2>
+          )}
 
-      { history.location.pathname.includes('meals') //  Category
-        ? (
-          <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
-        )
-        : (
-          <>
+        { history.location.pathname.includes('meals') //  Category
+          ? (
             <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
-            <h3 data-testid="recipe-category">{recipeDetails.strAlcoholic}</h3>
-          </>
-        )}
+          )
+          : (
+            <>
+              <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
+              <h3 data-testid="recipe-category">{recipeDetails.strAlcoholic}</h3>
+            </>
+          )}
 
-      <ul>
-        Ingredients
-        { ingredients.map((ingredient, index) => (
-          <li
-            key={ index }
-            data-testid={ `${index}-ingredient-name-and-measure` }
-          >
-            {`${ingredient} ${measure[index]}` }
-          </li>
-        ))}
-      </ul>
-      {/* <FavoriteButton /> */}
-      { history.location.pathname.includes('meals') // Recipe Video
-        ? (
-          <iframe
-            title={ recipeDetails.strMeal }
-            width="420"
-            height="315"
-            src={ recipeDetails.strYoutube }
-            data-testid="video"
-          />
+        <ul>
+          Ingredients
+          { ingredients.map((ingredient, index) => (
+            <li
+              key={ index }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {`${ingredient} ${measure[index]}` }
+            </li>
+          ))}
+        </ul>
+        {/* <FavoriteButton /> */}
+        { history.location.pathname.includes('meals') // Recipe Video
+          ? (
+            <iframe
+              title={ recipeDetails.strMeal }
+              width="420"
+              height="315"
+              src={ recipeDetails.strYoutube }
+              data-testid="video"
+            />
 
-        )
-        : (
-          null
-        )}
+          )
+          : (
+            null
+          )}
 
-      <p data-testid="instructions">{recipeDetails.strInstructions}</p>
+        <p data-testid="instructions">{recipeDetails.strInstructions}</p>
 
-      <button
-        type="button"
-        name="share-btn"
-        data-testid="share-btn"
-        onClick={ shareRecipe }
-      >
-        <img src={ shareIcon } alt="Share Recipe" />
-      </button>
-    </section>
+        <button
+          type="button"
+          name="share-btn"
+          data-testid="share-btn"
+          onClick={ shareRecipe }
+        >
+          <img src={ shareIcon } alt="Share Recipe" />
+        </button>
+      </section>
+      <section>
+        <button
+          type="button"
+          name="favorite-btn"
+          data-testid="favorite-btn"
+          onClick={ shareRecipe }
+        >
+          Favorite
+        </button>
 
-      <button
-        type="button"
-        name="favorite-btn"
-        data-testid="favorite-btn"
-        onClick={ shareRecipe }
-      >
-        Favorite
-      </button>
+        { isMessage ? <p>Link copied!</p> : null }
 
-      { isMessage ? <p>Link copied!</p> : null }
-
-      <button
-        type="button"
-        name="start-btn"
-        data-testid="start-recipe-btn"
-        className="btn-fixed"
-      >
-        Start Recipe
-      </button>
-    </section>
+        <button
+          type="button"
+          name="start-btn"
+          data-testid="start-recipe-btn"
+          className="btn-fixed"
+        >
+          Start Recipe
+        </button>
+      </section>
+    </>
   );
 }
 

@@ -31,7 +31,6 @@ function Meals() {
   ).then((response) => response.json());
 
   const mealsByCategory = async (category) => {
-    setSelectedCategory(category);
     const response = await fetch(`${'https://www.themealdb.com/api/json/v1/1/filter.php?c='}${category}`);
     const json = await response.json();
     return json;

@@ -10,7 +10,7 @@
 
   .buttons-div {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     width: 120px;
   }
 
@@ -29,6 +29,7 @@
     color: white;
     font-family: Bukhari;
     font-weight: 100;
+    margin-left: 20px;
   }
 
   .profile-icon {

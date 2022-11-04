@@ -101,6 +101,7 @@ function Drinks() {
         <button
           key={ i }
           type="button"
+          className="category-button"
           data-testid={ `${category}-category-filter` }
           value={ category }
           onClick={ getDrinksByCategory }

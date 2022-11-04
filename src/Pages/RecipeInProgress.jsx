@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 /* import blackHeartIcon from '../images/blackHeartIcon.svg'; */
-import './RecipeInProgress.css';
+import '../styles/details.css';
 
 function RecipeInProgress() {
   const history = useHistory();
@@ -121,19 +121,28 @@ function RecipeInProgress() {
           <div>
             {recipeDetails ? (
               recipeDetails.map((recipe) => (
-                <div key={ recipe.strMeal }>
+                <div className="details-container" key={ recipe.strMeal }>
                   <img
+                    className="details-image"
                     src={ recipe.strMealThumb }
                     alt="Recipe Pic"
                     data-testid="recipe-photo"
                   />
-                  <h2 data-testid="recipe-title">{recipe.strMeal}</h2>
+                  <h2
+                    className="details-title"
+                    data-testid="recipe-title"
+                  >
+                    {recipe.strMeal}
+
+                  </h2>
                   <h4
+                    className="details-category"
                     data-testid="recipe-category"
                   >
                     {recipe.strCategory}
                   </h4>
                   <img
+                    className="details-button"
                     src={ whiteHeartIcon }
                     alt="favorite button"
                     onClick={ () => {} }
@@ -141,6 +150,7 @@ function RecipeInProgress() {
                     data-testid="favorite-btn"
                   />
                   <img
+                    className="details-button"
                     src={ shareIcon }
                     alt="share button"
                     data-testid="share-btn"
@@ -151,13 +161,14 @@ function RecipeInProgress() {
                   <p data-testid="instructions">{recipe.strInstructions}</p>
                   <form>
                     {Ingredients.map((checkbox, index) => (
-                      <div key={ index }>
+                      <div className="recipe-steps" key={ index }>
                         <label
                           htmlFor={ `${checkbox} ${Measures[index]}` }
                           name={ `${checkbox} ${Measures[index]}` }
                           data-testid={ `${index}-ingredient-step` }
                         >
                           <input
+                            className="input-step"
                             type="checkbox"
                             onClick={ saveDoneSteps }
                             onChange={ validateButton }
@@ -168,6 +179,7 @@ function RecipeInProgress() {
                       </div>))}
                   </form>
                   <button
+                    className="fixed-bottom"
                     type="button"
                     onClick={ finishRecipe }
                     data-testid="finish-recipe-btn"
@@ -184,19 +196,28 @@ function RecipeInProgress() {
           <div>
             {recipeDetails ? (
               recipeDetails.map((recipe) => (
-                <div key={ recipe.strDrink }>
+                <div className="details-container" key={ recipe.strDrink }>
                   <img
+                    className="details-image"
                     src={ recipe.strDrinkThumb }
                     alt="Recipe Pic"
                     data-testid="recipe-photo"
                   />
-                  <h2 data-testid="recipe-title">{recipe.strDrink}</h2>
+                  <h2
+                    className="details-title"
+                    data-testid="recipe-title"
+                  >
+                    {recipe.strDrink}
+
+                  </h2>
                   <h4
+                    className="details-category"
                     data-testid="recipe-category"
                   >
                     {recipe.strCategory}
                   </h4>
                   <img
+                    className="details-button"
                     src={ whiteHeartIcon }
                     alt="favorite button"
                     onClick={ () => {} }
@@ -204,6 +225,7 @@ function RecipeInProgress() {
                     data-testid="favorite-btn"
                   />
                   <img
+                    className="details-button"
                     src={ shareIcon }
                     alt="share button"
                     data-testid="share-btn"
@@ -216,11 +238,13 @@ function RecipeInProgress() {
                     {Ingredients.map((checkbox, index) => (
                       <div key={ `${checkbox} ${Measures[index]}` }>
                         <label
+                          className="recipe-steps"
                           htmlFor={ `${checkbox} ${Measures[index]}` }
                           name={ `${checkbox} ${Measures[index]}` }
                           data-testid={ `${index}-ingredient-step` }
                         >
                           <input
+                            className="input-step"
                             type="checkbox"
                             onClick={ saveDoneSteps }
                             onChange={ validateButton }
@@ -231,6 +255,7 @@ function RecipeInProgress() {
                       </div>))}
                   </form>
                   <button
+                    className="fixed-bottom"
                     type="button"
                     onClick={ finishRecipe }
                     data-testid="finish-recipe-btn"

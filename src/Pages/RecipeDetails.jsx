@@ -6,6 +6,7 @@ import shareIcon from '../images/shareIcon.svg';
 import { fetchRecipe, fetchSugestion } from '../services/RequestAPI';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 // import FavoriteButton from '../components/FavoriteButton';
+import '../styles/details.css';
 
 function RecipeDetails() {
   const { setRecipeDetails, recipeDetails, ingredients, measure,
@@ -14,6 +15,9 @@ function RecipeDetails() {
   const [isMessage, setIsMessage] = useState(false);
   const history = useHistory();
   const { id } = useParams();
+  const recipeId = history.location.pathname.replace(/\D/g, '');
+  const bars = history.location.pathname.split('/');
+  const path = bars[1];
 
   useEffect(() => {
     fetchRecipe(history.location.pathname, id, setRecipeDetails);
@@ -45,48 +49,82 @@ function RecipeDetails() {
     // localStorage.setItem('favoriteRecipes', );
   };
 
+  const pushToDoneRecipes = () => {
+    history.push(`${history.location.pathname}/in-progress`);
+  };
+
   // const opa = () => {
 
   // };
 
   return (
-    <>
-      <section>
-        <h1>RecipeDetails</h1>
-        { history.location.pathname.includes('meals') // Photo
-          ? (
-            <img
-              src={ recipeDetails.strMealThumb }
-              alt="Meal"
-              data-testid="recipe-photo"
-              width="300px"
-            />
-          )
-          : (
-            <img
-              src={ recipeDetails.strDrinkThumb }
-              alt="Drink"
-              data-testid="recipe-photo"
-              width="300px"
-            />
-          )}
-
+    <section>
+      { history.location.pathname.includes('meals') // Photo
+        ? (
+          <img
+            className="details-image"
+            src={ recipeDetails.strMealThumb }
+            alt="Meal"
+            data-testid="recipe-photo"
+            width="300px"
+          />
+        )
+        : (
+          <img
+            className="details-image"
+            src={ recipeDetails.strDrinkThumb }
+            alt="Drink"
+            data-testid="recipe-photo"
+            width="300px"
+          />
+        )}
+      <div className="details-info">
         { history.location.pathname.includes('meals') // Title
           ? (
-            <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
+            <h2
+              className="details-title"
+              data-testid="recipe-title"
+            >
+              {recipeDetails.strMeal}
+
+            </h2>
           )
           : (
-            <h2 data-testid="recipe-title">{recipeDetails.strDrink}</h2>
+            <h2
+              className="details-title"
+              data-testid="recipe-title"
+            >
+              {recipeDetails.strDrink}
+
+            </h2>
           )}
 
         { history.location.pathname.includes('meals') //  Category
           ? (
-            <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
+            <h3
+              className="details-category"
+              data-testid="recipe-category"
+            >
+              {recipeDetails.strCategory}
+
+            </h3>
           )
           : (
             <>
-              <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
-              <h3 data-testid="recipe-category">{recipeDetails.strAlcoholic}</h3>
+              <h3
+                className="details-category"
+                data-testid="recipe-category"
+              >
+                {recipeDetails.strCategory}
+
+              </h3>
+              <h3
+                className="details-category"
+                data-testid="recipe-category"
+              >
+                {recipeDetails.strAlcoholic}
+
+              </h3>
             </>
           )}
 
@@ -94,6 +132,7 @@ function RecipeDetails() {
           Ingredients
           { ingredients.map((ingredient, index) => (
             <li
+              className="details-list-element"
               key={ index }
               data-testid={ `${index}-ingredient-name-and-measure` }
             >
@@ -118,8 +157,10 @@ function RecipeDetails() {
           )}
 
         <p data-testid="instructions">{recipeDetails.strInstructions}</p>
-
+      </div>
+      <div className="buttons-container">
         <button
+          className="details-button"
           type="button"
           name="share-btn"
           data-testid="share-btn"
@@ -127,9 +168,8 @@ function RecipeDetails() {
         >
           <img src={ shareIcon } alt="Share Recipe" />
         </button>
-      </section>
-      <section>
         <button
+          className="details-button"
           type="button"
           name="favorite-btn"
           data-testid="favorite-btn"
@@ -140,19 +180,19 @@ function RecipeDetails() {
             alt="favoritar"
           />
         </button>
+      </div>
+      { isMessage ? <p>Link copied!</p> : null }
 
-        { isMessage ? <p>Link copied!</p> : null }
-
-        <button
-          type="button"
-          name="start-btn"
-          data-testid="start-recipe-btn"
-          className="btn-fixed"
-        >
-          Start Recipe
-        </button>
-      </section>
-    </>
+      <button
+        type="button"
+        name="start-btn"
+        data-testid="start-recipe-btn"
+        className="fixed-bottom"
+        onClick={ pushToDoneRecipes }
+      >
+        Start Recipe
+      </button>
+    </section>
   );
 }
 

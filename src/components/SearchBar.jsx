@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import RecipeContext from '../context/RecipeContext';
+import '../styles/searchbar.css';
 
 function SearchBar() {
   const history = useHistory();
@@ -69,6 +70,7 @@ function SearchBar() {
     <div>
       ingredient:
       <input
+        className="search-input"
         data-testid="ingredient-search-radio"
         type="radio"
         name="filter"
@@ -78,6 +80,7 @@ function SearchBar() {
       />
       name:
       <input
+        className="search-input"
         data-testid="name-search-radio"
         type="radio"
         name="filter"
@@ -87,6 +90,7 @@ function SearchBar() {
       />
       first letter:
       <input
+        className="search-input"
         data-testid="first-letter-search-radio"
         type="radio"
         name="filter"
@@ -95,12 +99,14 @@ function SearchBar() {
         onChange={ handleRadio }
       />
       <input
+        className="text-input"
         data-testid="search-input"
         type="text"
         id="searchInput"
         onChange={ filterHandleChange }
       />
       <button
+        className="search-button"
         data-testid="exec-search-btn"
         type="button"
         onClick={ handleCLick }

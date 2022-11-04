@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Card from '../components/Card';
+import '../styles/recipes.css';
 
 import RecipeContext from '../context/RecipeContext';
 
@@ -94,6 +95,7 @@ function Meals() {
         <Header />
         {renderCategories.length > 0 && renderCategories.map((category, i) => (
           <button
+            className="category-button"
             data-testid={ `${category}-category-filter` }
             type="button"
             key={ i }

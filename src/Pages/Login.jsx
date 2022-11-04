@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import '../styles/login.css';
 
 export default function Login() {
   const [login, setLogin] = useState({ email: '', password: '' });
@@ -25,41 +26,43 @@ export default function Login() {
   };
 
   return (
-    <form>
-      <label htmlFor="email-input">
-        <p>Email</p>
-        <input
-          type="email"
-          id="email-input"
-          name="email"
-          value={ login.email }
-          onChange={ handleChange }
-          data-testid="email-input"
-        />
-      </label>
-      <label htmlFor="password-input">
-        <p>Senha</p>
-        <input
-          type="password"
-          id="password-input"
-          name="password"
-          value={ login.password }
-          onChange={ handleChange }
-          data-testid="password-input"
-        />
-      </label>
-      <div>
-        <button
-          type="button"
-          onClick={ handleButton }
-          disabled={ disabled }
-          data-testid="login-submit-btn"
+    <div className="container">
+      <div className="content">
+        <form>
+          <input
+            className="login-input"
+            type="email"
+            id="email-input"
+            name="email"
+            value={ login.email }
+            onChange={ handleChange }
+            data-testid="email-input"
+            placeholder="Insira seu email"
+          />
+          <input
+            className="login-input"
+            type="password"
+            id="password-input"
+            name="password"
+            value={ login.password }
+            onChange={ handleChange }
+            data-testid="password-input"
+            placeholder="insira sua senha"
+          />
+          <button
+            type="button"
+            onClick={ handleButton }
+            disabled={ disabled }
+            data-testid="login-submit-btn"
+            className="login-button"
 
-        >
-          Enter
+          >
+            Enter
 
-        </button>
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
+
   );
 }

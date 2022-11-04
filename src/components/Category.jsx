@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import RecipesProvider from '../context/RecipeProvider';
+import '../styles/recipes.css';
 
 function Category() {
   const base = (mealOrDrinks) => (
@@ -39,24 +40,28 @@ function Category() {
 
   return (
     <div className="category-list">
-      <button
-        onClick={ () => handleSetCategory('') }
-        type="button"
-        className="category"
-        data-testid="All-category-filter"
-      >
-        All
-      </button>
-      {categories.map(({ strCategory }) => (
+      <div className="category">
         <button
+          className="category-button"
+          onClick={ () => handleSetCategory('') }
           type="button"
-          onClick={ () => handleSetCategory(strCategory) }
-          data-testid={ `${strCategory}-category-filter` }
-          key={ strCategory }
+          className="category-button"
+          data-testid="All-category-filter"
         >
-          {strCategory}
+          All
         </button>
-      ))}
+        {categories.map(({ strCategory }) => (
+          <button
+            className="category-button"
+            type="button"
+            onClick={ () => handleSetCategory(strCategory) }
+            data-testid={ `${strCategory}-category-filter` }
+            key={ strCategory }
+          >
+            {strCategory}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

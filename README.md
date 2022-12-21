@@ -1,4 +1,9 @@
-# :done: README APP de Receitas :done:
+# README: APP de Receitas 🥘
+
+- Projeto que consome algumas APIs de Receitas para simulacao de um onde se contras receitas a serem feitas em casa!
+- Projeto feito na Escola de educacao @Trybe e em Grupo.
+- Intergrantes: Washington Gama (wgamaneto). Alan Foster (Foster-Alan), Luan Victor (LuanVictr), Raiane Viana (raiviana),Igor Cruz (CCFerreira).
+- README EM CONTRUCAO 🚧
 <!-- Olá, Tryber!
 Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
 

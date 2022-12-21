@@ -14,7 +14,7 @@ Javascript, HTML, CSS and KABAM
 
 ## Stack utilizada
 
-**Front-end:** React, ContextAPI, CSS.
+**Front-end:** React with ContextAPI
 
 
 

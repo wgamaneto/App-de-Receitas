@@ -1,6 +1,7 @@
 # README: APP de Receitas 🥘
 
 - Projeto em React usando ContextAPI e KABAM como metodo de organizacao! Consome algumas APIs para simulacao de um APP onde se contras receitas a serem feitas em casa!
+- PROJETO DESENVOLVIDO PARA TELAS MOBILE!
 - Projeto feito na Escola de educacao @Trybe e em Grupo.
 - Intergrantes: Washington Gama (wgamaneto). Alan Foster (Foster-Alan), Luan Victor (LuanVictr), Raiane Viana (raiviana),Igor Cruz (CCFerreira).
 - README EM CONTRUCAO 🚧

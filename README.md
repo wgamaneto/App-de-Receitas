@@ -1,11 +1,31 @@
-# README: APP de Receitas 🥘
 
-- Projeto em React usando ContextAPI e KABAM como metodo de organizacao!
-- Consome algumas APIs para simulacao de um APP onde se contras receitas a serem feitas em casa!
-- PROJETO DESENVOLVIDO PARA TELAS MOBILE!
-- Projeto feito na Escola de educacao @Trybe e em Grupo.
-- Intergrantes: Washington Gama (wgamaneto). Alan Foster (Foster-Alan), Luan Victor (LuanVictr), Raiane Viana (raiviana),Igor Cruz (CCFerreira).
-- README EM CONTRUCAO 🚧
+# APP de Receitas
+
+ - Projeto em React usando ContextAPI e KABAM como metodo de organizacao!
+ - Consome algumas APIs para simulacao de um APP onde se contras receitas a serem feitas em casa!
+ - PROJETO DESENVOLVIDO PARA TELAS MOBILE!
+ - Projeto feito na Escola de educacao @Trybe e em Grupo.
+ 
+
+
+## 🛠 Habilidades
+Javascript, HTML, CSS and KABAM
+
+
+## Stack utilizada
+
+**Front-end:** React, ContextAPI, CSS.
+
+
+
+## Autores
+
+- Washington Gama ([@wgamaneto](https://github.com/wgamaneto))
+- Alan Foster ([@Foster-Alan](https://github.com/Foster-Alan))
+- Luan Victor ([@LuanVictr](https://github.com/LuanVictr))
+- Raiane Viana ([@raiviana](https://github.com/raiviana))
+- Igor Cruz ([@FCCFerreira](https://github.com/CCFerreira))
+
 <!-- Olá, Tryber!
 Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
 
